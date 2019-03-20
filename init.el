@@ -11,14 +11,6 @@
 ;; M-x byte-compile-file RET
 
 
-;; package 設定
-(package-initialize)
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa" . "http://melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
-;;-------------------------------------------------------------------------;;
-
 
 ;;-------------------------------------------------------------------------;;
 ;; load-pathの追加関数
@@ -34,11 +26,9 @@
             (normal-top-level-add-subdirs-to-load-path))))))
 
 ;; load-pathに追加するフォルダ
-(add-to-list 'load-path
-	     "~/.emacs.d/elisp/"
-	     "~/.emacs.d/elpa/"
-	     "~/.emacs.d/site-lisp/"
-	     "~/.emacs.d/site-lisp/color-theme")
+;; .emacs.dからの相対パスで記述
+(add-to-load-path "elpa/"
+		  "site-lisp/")
 ;;-------------------------------------------------------------------------;;
 
 
@@ -51,3 +41,24 @@
 
 
 
+;;-------------------------------------------------------------------------;;
+;; package 設定
+(require 'package)
+
+;; HTTPS 系のリポジトリ
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
+
+;; HTTP 系のリポジトリ
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/") t)
+
+;; marmalade　は HTTP アクセスすると証明書エラーでフリーズするので注意
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+(package-initialize)
+;;-------------------------------------------------------------------------;;
