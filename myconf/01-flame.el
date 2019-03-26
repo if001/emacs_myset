@@ -1,6 +1,6 @@
 ;;-------------------------------------------------------------------------;;
 ;;時計の表示
-(display-time-mode 1)
+(display-time-mode nil)
 
 ;;;スタートメッセージを表示しない
 (setq inhibit-startup-message t)
@@ -53,11 +53,6 @@
 ;; GCを減らして軽くする.(10倍)
 (setq gc-cons-threshold (* gc-cons-threshold 20))
 
-;;mac のcommandとoptionを入れ替える
-(if (string-match "ac171.local" system-name)
-    (setq ns-command-modifier (quote meta))
-  (setq ns-alternate-modifier (quote super))
-  )
 
 ;; かっこの自動挿入
 (electric-pair-mode 1)
@@ -74,8 +69,15 @@
 ;;行番号の表示
 (require 'linum)
 (global-linum-mode)
- (custom-set-faces
-  '(linum ((t (:inherit (shadow default) :background "#3F3F3F"))))) ;;背景色
+;; (custom-set-faces
+;;  '(linum ((t (
+;; 	      :inherit (shadow default)
+;; 		       :background "#20232a"
+;; 		       :foreground "gray65"
+;; 		       )))))
+(custom-set-faces
+ '(linum ((t (:inherit (shadow default) :background "#20232a" :foreground "gray65" :strike-through nil :underline nil :slant normal :weight normal)))))
+
 (setq linum-format "%4d")  ;;予めマージンを指定
 
 ;; モードラインに行数を非表示に

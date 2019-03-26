@@ -1,5 +1,5 @@
-(use-package tabbar)
-(tabbar-mode 1)
+(use-package tabbar)(
+tabbar-mode 1)
 
 ;; タブ上でマウスホイールを使わない
 (tabbar-mwheel-mode nil)
