@@ -1,5 +1,5 @@
 ;; doom-theme
-(use-package doom-themes)
+(require 'doom-themes)
 
 ;; Global settings (defaults)
 (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -20,8 +20,16 @@
 ;; Corrects (and improves) org-mode's native fontification.
 (doom-themes-org-config)
 
+;; 左の行番号の色設定はdoomのを上書きするためここに記述
+;; (set-face-attribute 'linum nil
+;;             :foreground "#20232a"
+;;             :background "gray65"
+;;             :height 0.9)
+;; (setq linum-format "%4d")  ;;予めマージンを指定
+
+;; -------------------------------------------------------------------
 ;; doom-modeline
-(use-package 'doom-modeline)
+(use-package doom-modeline)
 (doom-modeline-mode 1)
 
 ;; How tall the mode-line should be (only respected in GUI Emacs).
@@ -118,8 +126,18 @@
 
 
 ;; インデントハイライト
+(use-package highlight-indent-guides)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
+;; (setq highlight-indent-guides-method 'character)
+(setq highlight-indent-guides-method 'column)
+
 (setq highlight-indent-guides-auto-enabled t)
 (setq highlight-indent-guides-responsive t)
 (global-set-key "\C-h" 'highlight-indent-guides-mode)
+
+
+;;-------------------------------------------------------------------------;;
+;; 非アクティブウィンドウの背景色を設定
+(hiwin-activate)                           ;; hiwin-modeを有効化
+(set-face-background 'hiwin-face "#20232a") ;; 非アクティブウィンドウの背景色を設定
+;;-------------------------------------------------------------------------;;
