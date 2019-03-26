@@ -1,6 +1,6 @@
-elpa/
-elpa/.gitkeep
-site-lisp/
+elpa/*
+!elpa/.gitkeep
+site-lisp/*
 !site-lisp/.gitkeep
 
 projectile-bookmarks.eld
