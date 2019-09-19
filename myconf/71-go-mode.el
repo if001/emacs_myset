@@ -1,8 +1,13 @@
 ;; Goのパスを通す
+;; (add-to-list 'exec-path (expand-file-name "/usr/local/bin/go"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin/go"))
+(add-to-list 'exec-path (expand-file-name "~/.goenv/versions/1.11.4/bin/go"))
+
 ;; go get で入れたツールのパスを通す
-(add-to-list 'exec-path (expand-file-name "/Users/issei/.go/bin"))
-(add-to-list 'exec-path (expand-file-name "/Users/issei/prog/go_lang/src/"))
+;; (add-to-list 'exec-path (expand-file-name "/Users/issei/.go/bin"))
+;; (add-to-list 'exec-path (expand-file-name "/Users/issei/prog/go_lang/src/"))
+(add-to-list 'exec-path (expand-file-name "/Users/ac171/go/bin"))
+(add-to-list 'exec-path (expand-file-name "/Users/ac171/go/src"))
 
 
 ;; gofmt適応

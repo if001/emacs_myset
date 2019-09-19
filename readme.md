@@ -1,5 +1,4 @@
 # readme
-
 ### site-lisp
 `site-lisp/`にgitからのコードを配置する
 
@@ -13,3 +12,15 @@ https://github.com/Ladicle/flymake-posframe.git
 https://github.com/DarthFennec/highlight-indent-guides.git  
 - init-loader  
 https://github.com/emacs-jp/init-loader.git  
+- all-the-icons  
+https://github.com/domtronn/all-the-icons.el.git  
+
+### all-the-icons
+`site-lisp/all-the-icons/fonts`以下のフォントを`~/Libraly/fonts`以下に移動する
+
+### go
+gopathをよしなに書き直す
+
+`(add-to-list 'exec-path (expand-file-name "your go path"))`
+
+`$ go get -u -v github.com/nsf/gocode`

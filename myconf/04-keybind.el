@@ -49,39 +49,6 @@
 ;; (define-key global-map (kbd "\C-c <up>") 'windmove-up)
 ;; (define-key global-map (kbd "\C-c <right>") 'windmove-right)
 ;; (define-key global-map (kbd "\C-c <down>") 'windmove-down)
-;; (define-key global-map (kbd "\C-c <left>") 'windmove-left)
-
-;;ページのトップへ移動
-(define-key global-map [M-up] 'beginning-of-buffer)
-
-;;ページのトップへ移動
-(define-key global-map [M-down] 'end-of-buffer)
-
-;; 矩形選択
-;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
-(cua-mode t)
-(setq cua-enable-cua-keys nil)
-
-;;init.el更新
-(global-set-key [C-f12] 'eval-buffer)
-
-;; anything起動
-(define-key global-map (kbd "C-;") 'anything)
-
-;; C-tでウィンドウが一つしかないときは分割、複数あるときは画面間を移動
-;; ターミナル起動するとターミナルのキーバインドとC-tが被って使えない
-(defun other-window-or-split ()
-  (interactive)
-  (when (one-window-p)
-    (split-window-horizontally))
-  (other-window 1))
-(global-set-key (kbd "C-t") 'other-window-or-split)
-(put 'upcase-region 'disabled nil)
-
-
-;; macではバックスラッシュが打てないので
-;; ¥の代わりにバックスラッシュを入力する
-(define-key global-map [?¥] [?\\])
 
 ;; 上側に大きくスクロール
 (define-key global-map "\C-o" 'cua-scroll-down)
@@ -93,5 +60,10 @@
  )
 (if (string-match "ac171" system-name)
    (setq ns-command-modifier (quote meta))
+ (setq ns-alternate-modifier (quote super))
+ )
+
+(if (string-match "AC164-3.local" system-name)
+       (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
  )

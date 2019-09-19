@@ -6,7 +6,7 @@
   (lsp-document-sync-method 'incremental) ;; always send incremental document
   (lsp-response-timeout 5)
   ;; golangのサーバー設定
-  (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
+  ;; (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
   :commands lsp)
 
 ;;(setq lsp-print-io t)
@@ -24,7 +24,7 @@
   (lsp-ui-doc-use-childframe t)
   (lsp-ui-doc-use-webkit t)
   
-  ;; lsp-ui-flycheckx
+  ;; lsp-ui-flycheck
   (lsp-ui-flycheck-enable nil)
   ;;(lsp-ui-flycheck-list-position 'right)
 
