@@ -5,6 +5,7 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; always send incremental document
   (lsp-response-timeout 5)
+  (lsp-enable-snippet nil)
   ;; golangのサーバー設定
   ;; (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
   :commands lsp)
@@ -60,8 +61,6 @@
     ;; (set-face-attribute 'flymake-posframe-background-face nil :background "#20232a")
     ;; (set-face-attribute 'flymake-posframe-foreground-face nil :foreground "gray65")
     )
-
-  
   )
 
 (require 'company-lsp)

@@ -38,6 +38,7 @@
   (eval-after-load "dired" '(progn
 			      (define-key dired-mode-map (kbd "C-t") 'other-window) ))
   )
+(define-key global-map "\C-t" 'other-window)
 
 ;;ウィンドウ移動(linux)
 (when (eq system-type 'gnu/linux)
@@ -50,6 +51,9 @@
 ;; (define-key global-map (kbd "\C-c <right>") 'windmove-right)
 ;; (define-key global-map (kbd "\C-c <down>") 'windmove-down)
 
+
+(cua-mode t)  ; cua-modeをオン
+(setq cua-enable-cua-keys nil)  ; CUAキーバインドを無効化
 ;; 上側に大きくスクロール
 (define-key global-map "\C-o" 'cua-scroll-down)
 
@@ -62,7 +66,6 @@
    (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
  )
-
 (if (string-match "AC164-3.local" system-name)
        (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
