@@ -1,29 +1,34 @@
 (use-package lsp-mode
   :custom
-  (lsp-print-io t) ;; debug mode
+  ;; debug mode
+  (lsp-print-io t) 
+  (lsp-trace nil)
+  (lsp-print-performance nil)
   (lsp-prefer-flymake 'flymake)
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; always send incremental document
-  (lsp-response-timeout 5)
+  (lsp-response-timeout 20)
   (lsp-enable-snippet nil)
   ;; golangのサーバー設定
   ;; (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
-  :commands lsp)
+  :commands (lsp lsp-deferred))
 
 ;;(setq lsp-print-io t)
 
 (use-package lsp-ui
+  :after lsp-mode
   :custom
   ;; lsp-ui-doc
-  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-enable t)
   (lsp-ui-doc-header t)
   (lsp-ui-doc-include-signature t)
-  ;; (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
-  (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+  (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
+  ;; (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
   (lsp-ui-doc-max-width 150)
   (lsp-ui-doc-max-height 30)
   (lsp-ui-doc-use-childframe t)
   (lsp-ui-doc-use-webkit t)
+  (lsp-ui-doc-delay 0.2)
   
   ;; lsp-ui-flycheck
   (lsp-ui-flycheck-enable nil)
@@ -63,7 +68,18 @@
     )
   )
 
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+  (use-package company-lsp
+    :custom
+    (company-lsp-cache-candidates t) ;; always using cache
+    (company-lsp-async t)
+    (company-lsp-enable-recompletion nil)
+    :config
+    (require 'company-lsp)
+    (push 'company-lsp company-backends)
+    (add-hook 'after-init-hook 'global-company-mode)
+    )
+
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
 
 ;;(flymake-mode nil)
