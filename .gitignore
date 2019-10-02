@@ -11,3 +11,6 @@ auto-save-list/
 network-security.data
 
 transient
+
+elpa/*
+!elpa/.gitkeep

@@ -70,3 +70,7 @@
        (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
  )
+(if (string-match "ac211.local" system-name)
+       (setq ns-command-modifier (quote meta))
+ (setq ns-alternate-modifier (quote super))
+ )

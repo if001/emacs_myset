@@ -1,4 +1,5 @@
 (use-package lsp-mode
+  :ensure t
   :custom
   ;; debug mode
   (lsp-print-io t) 
@@ -16,6 +17,7 @@
 ;;(setq lsp-print-io t)
 
 (use-package lsp-ui
+  :ensure t  
   :after lsp-mode
   :custom
   ;; lsp-ui-doc
@@ -68,15 +70,16 @@
     )
   )
 
-  (use-package company-lsp
-    :custom
-    (company-lsp-cache-candidates t) ;; always using cache
-    (company-lsp-async t)
-    (company-lsp-enable-recompletion nil)
-    :config
-    (require 'company-lsp)
-    (push 'company-lsp company-backends)
-    (add-hook 'after-init-hook 'global-company-mode)
+(use-package company-lsp
+  :ensure t
+  :custom
+  (company-lsp-cache-candidates t) ;; always using cache
+  (company-lsp-async t)
+  (company-lsp-enable-recompletion nil)
+  :config
+  (require 'company-lsp)
+  (push 'company-lsp company-backends)
+  (add-hook 'after-init-hook 'global-company-mode)
     )
 
 ;; (require 'company-lsp)

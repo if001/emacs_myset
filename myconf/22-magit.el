@@ -2,6 +2,7 @@
 
 
 (use-package git-gutter-fringe
+  :ensure t
   :custom  
   (git-gutter:modified-sign "~")
   (git-gutter:added-sign    "+")

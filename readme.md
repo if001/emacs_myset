@@ -1,4 +1,8 @@
 # readme
+### use-package
+初回起動時に、use-packageをいれる
+`M-x package-install [RET] use-package`
+
 ### site-lisp
 `site-lisp/`にgitからのコードを配置する
 

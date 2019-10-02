@@ -1,6 +1,6 @@
 ;; doom-theme
 (require 'doom-themes)
-
+  :config
 ;; Global settings (defaults)
 (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
       doom-themes-enable-italic t) ; if nil, italics is universally disabled
@@ -126,7 +126,9 @@
 
 
 ;; インデントハイライト
-(use-package highlight-indent-guides)
+(use-package highlight-indent-guides
+  :ensure t
+  :config
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 ;; (setq highlight-indent-guides-method 'character)
 (setq highlight-indent-guides-method 'column)
@@ -134,10 +136,13 @@
 (setq highlight-indent-guides-auto-enabled t)
 (setq highlight-indent-guides-responsive t)
 (global-set-key "\C-h" 'highlight-indent-guides-mode)
+)
 
 
 ;;-------------------------------------------------------------------------;;
-;; 非アクティブウィンドウの背景色を設定
-(hiwin-activate)                           ;; hiwin-modeを有効化
-(set-face-background 'hiwin-face "#20232a") ;; 非アクティブウィンドウの背景色を設定
+(use-package hiwin
+  :config;; 非アクティブウィンドウの背景色を設定
+  (hiwin-activate)                           ;; hiwin-modeを有効化
+  (set-face-background 'hiwin-face "#20232a") ;; 非アクティブウィンドウの背景色を設定
+  )
 ;;-------------------------------------------------------------------------;;

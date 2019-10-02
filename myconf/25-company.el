@@ -1,35 +1,29 @@
-(require 'company)
-(require 'company-quickhelp)
-
-
+(use-package company
+  :ensure t
+  :config
 ;;キーバインド
 (global-set-key [\C-tab] 'company-mode)
-
 (global-company-mode t) ; 全バッファで有効にする
-(company-quickhelp-mode t)
-
-
 (custom-set-variables
  '(company-dabbrev-other-buffers 'all)
  '(company-dabbrev-code-other-buffers 'all)
  )
-
-
 (setq company-idle-delay 0) ; デフォルトは0.5
 (setq company-minimum-prefix-length 2) ; デフォルトは4
 (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
 
-
 ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
 (define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
-
-
-;; 予測選択のキーバインド変更
 (define-key company-active-map (kbd "M-n") nil)
 (define-key company-active-map (kbd "M-p") nil)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
+)
+
+;; (require 'company-quickhelp)
+;; (company-quickhelp-mode t)
+
 
 
 
