@@ -2,14 +2,16 @@
   :ensure t
   :custom
   ;; debug mode
-  (lsp-print-io t) 
+  (lsp-print-io t)
   (lsp-trace nil)
   (lsp-print-performance nil)
-  (lsp-prefer-flymake 'flymake)
+  ;; (lsp-prefer-flymake 'flymake)
+  (lsp-prefer-flymake nil)
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; always send incremental document
   (lsp-response-timeout 20)
   (lsp-enable-snippet nil)
+  (lsp-enable-symbol-highlighting nil)
   ;; golangのサーバー設定
   ;; (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
   :commands (lsp lsp-deferred))
@@ -17,7 +19,7 @@
 ;;(setq lsp-print-io t)
 
 (use-package lsp-ui
-  :ensure t  
+  :ensure t
   :after lsp-mode
   :custom
   ;; lsp-ui-doc
@@ -33,7 +35,7 @@
   (lsp-ui-doc-delay 0.2)
   
   ;; lsp-ui-flycheck
-  (lsp-ui-flycheck-enable nil)
+  (lsp-ui-flycheck-enable t)
   ;;(lsp-ui-flycheck-list-position 'right)
 
   ;; lsp-ui-peek
@@ -58,16 +60,17 @@
   :config
   (require 'lsp-clients)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (eval-after-load "flymake"
-    (setq flymake-fringe-indicator-position nil)
-    )
-  (use-package posframe)
-  (use-package flymake-posframe
-    :hook (flymake-mode . flymake-posframe-mode)
-    ;; :config
-    ;; (set-face-attribute 'flymake-posframe-background-face nil :background "#20232a")
-    ;; (set-face-attribute 'flymake-posframe-foreground-face nil :foreground "gray65")
-    )
+  ;; (eval-after-load "flymake"
+  ;;   (setq flymake-fringe-indicator-position nil)
+  ;;   )
+  ;; (use-package posframe)
+  ;; (use-package flymake-posframe
+  ;;   :ensure nil
+  ;;   :hook (flymake-mode . flymake-posframe-mode)
+  ;;   ;; :config
+  ;;   ;; (set-face-attribute 'flymake-posframe-background-face nil :background "#20232a")
+  ;;   ;; (set-face-attribute 'flymake-posframe-foreground-face nil :foreground "gray65")
+  ;;   )
   )
 
 (use-package company-lsp
@@ -84,5 +87,3 @@
 
 ;; (require 'company-lsp)
 ;; (push 'company-lsp company-backends)
-
-;;(flymake-mode nil)
