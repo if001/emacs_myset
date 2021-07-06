@@ -1,4 +1,8 @@
-;; ivy設定
+;;; 24-completion-search.el --- ivy settings:
+
+;;; Commentary:
+
+;;; Code:
 (use-package ivy
   :ensure t
   :config
@@ -15,6 +19,13 @@
   :ensure t
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
+  )
+
+(use-package smex
+  :ensure t
+  :custom
+  (smex-history-length 30)
+  (smex-completion-method 'ivy)
   )
 
 (use-package swiper
@@ -35,3 +46,5 @@
 ;; (global-set-key "\C-s" 'swiper)
 ;; (defvar swiper-include-line-number-in-search t) ;; line-numberでも検索可能
 ;;-------------------------------------------------------------------------;;
+
+;;; 24-completion-search.el ends here
