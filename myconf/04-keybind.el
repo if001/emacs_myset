@@ -8,6 +8,9 @@
 ;; まず、scratchバッファに書いてC-jで評価して、エラーがでなければ設定ファイルに
 ;; 書いた方が良い。
 
+;; bind-keyに置き換えたい
+;; http://emacs.rubikitch.com/bind-key/
+
 ; コメントアウト
 (define-key global-map "\C-c;" 'comment-region)
 
