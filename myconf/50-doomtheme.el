@@ -1,6 +1,6 @@
-;; doom-theme
+;;; doom-theme
 (require 'doom-themes)
-  :config
+:config
 ;; Global settings (defaults)
 (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
       doom-themes-enable-italic t) ; if nil, italics is universally disabled
@@ -125,18 +125,29 @@
 		    :box nil)
 
 
+;;; is large file
+(defun is-current-file-size-small (size)
+  "Wether current buffer size is over SIZE(byte)."
+  (< (nth 7 (file-attributes (buffer-file-name))) size)
+  )
+
+
 ;; インデントハイライト
 (use-package highlight-indent-guides
   :ensure t
   :config
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-;; (setq highlight-indent-guides-method 'character)
-(setq highlight-indent-guides-method 'column)
-
-(setq highlight-indent-guides-auto-enabled t)
-(setq highlight-indent-guides-responsive t)
-(global-set-key "\C-h" 'highlight-indent-guides-mode)
-)
+  (setq highlight-indent-guides-method 'column)
+  (setq highlight-indent-guides-responsive t)
+  (defun toggle-indent ()
+    (interactive)
+    (if (is-current-file-size-small 10000)
+    	 (highlight-indent-guides-mode)
+      (message "file too large!!!!!")
+      )
+    )
+  :bind
+  ("\C-h" . toggle-indent)
+  )
 
 
 ;;-------------------------------------------------------------------------;;

@@ -2,12 +2,9 @@
   :ensure t
   :init
   (global-flycheck-mode t)
-  :hook
-  (js-mode . (lambda ()
-	       (setq flycheck-checker 'jsonlint)
-	       (flycheck-mode 1)))
-  :config
-  (add-hook 'sh-mode-hook 'flycheck-mode)
+  ;; :hook
+  ;; (prog-mode . (lambda () (setq flycheck-checker 'jsonlint)))
+  ;; :config
   ;; (add-to-list 'flycheck-checkers 'jsonlint)
   ;; (flycheck-define-checker jsonlint
   ;;     :command ("jsonlint" source-inplace)
@@ -17,7 +14,7 @@
   ;;     	      (message (one-or-more not-newline)
   ;;     		       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
   ;;     	      line-end))
-  ;;     :modes (js-mode))
+  ;;     :modes (js-mode json-mode))
 )
 
 (flymake-mode nil)

@@ -1,4 +1,4 @@
-;;最近開いたファイル一覧からファイルを開く
+;; ;;最近開いたファイル一覧からファイルを開く
 (use-package recentf-ext
   :ensure t
   :config
@@ -11,8 +11,8 @@
     (recentf-mode 1))
   
   (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-  ;; ;; 起動画面で recentf を開く
-  ;; (add-hook 'after-init-hook (lambda()
-  ;;     (recentf-open-files)
-  ;;     ))
+  ;; 起動画面で recentf を開く
+  (add-hook 'after-init-hook (lambda()
+      (recentf-open-files)
+      ))
   )

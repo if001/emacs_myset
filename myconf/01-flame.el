@@ -52,7 +52,8 @@
 
 ;; GCを減らして軽くする.(10倍)
 ;; (setq gc-cons-threshold 12800000)
-(setq gc-cons-threshold (* gc-cons-threshold 50))
+;; (setq gc-cons-threshold (* gc-cons-threshold 50))
+(setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
 
 ;; かっこの自動挿入
 (electric-pair-mode 1)
@@ -118,5 +119,7 @@
               ;; otherwise
               (t
                (message "Quit")
-               (throw 'end-flag t)))))))
+               (throw 'end-flag t))))))
+  )
 ;---------------------------------------------------------------------;
+
