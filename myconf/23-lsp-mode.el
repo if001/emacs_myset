@@ -37,7 +37,7 @@
   (lsp-ui-doc-max-width 150)
   (lsp-ui-doc-max-height 30)
   (lsp-ui-doc-use-childframe t)
-  (lsp-ui-doc-use-webkit t)
+  (lsp-ui-doc-use-webkit nil)
   (lsp-ui-doc-delay 0.2)
   
   ;; lsp-ui-flycheck

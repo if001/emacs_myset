@@ -58,7 +58,7 @@
 (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
 
 ;; What executable of Python will be used (if nil nothing will be showed).
-(setq doom-modeline-python-executable "python")
+;;(setq doom-modeline-python-executable "python")
 
 ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
 (setq doom-modeline-icon t)
