@@ -1,4 +1,5 @@
 elpa/*
+!elpa/.gitkeep
 site-lisp/*
 !site-lisp/.gitkeep
 
@@ -11,6 +12,6 @@ auto-save-list/
 network-security.data
 
 transient
+tramp
 
-elpa/*
-!elpa/.gitkeep
+
