@@ -12,9 +12,15 @@
   (lsp-response-timeout 20)
   (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting nil)
+  (lsp-prefer-capf t)
+  :hook
+  (lsp-mode . lsp-ui-mode)
   ;; golangのサーバー設定
   ;; (lsp-go-language-server-flags '("-logfile=~/.go/src/github.com/saibing/bingo/log/"))
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-document-sync-method lsp--sync-incremental) ;; 'inclemental を指定してはいけない
+  )
 
 ;;(setq lsp-print-io t)
 
@@ -58,7 +64,6 @@
   ;;     (lsp-ui-doc-mode 1)))
   :commands lsp-ui-mode
   :config
-  (require 'lsp-clients)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   ;; (eval-after-load "flymake"
   ;;   (setq flymake-fringe-indicator-position nil)
@@ -73,17 +78,3 @@
   ;;   )
   )
 
-(use-package company-lsp
-  :ensure t
-  :custom
-  (company-lsp-cache-candidates t) ;; always using cache
-  (company-lsp-async t)
-  (company-lsp-enable-recompletion nil)
-  :config
-  (require 'company-lsp)
-  (push 'company-lsp company-backends)
-  (add-hook 'after-init-hook 'global-company-mode)
-    )
-
-;; (require 'company-lsp)
-;; (push 'company-lsp company-backends)

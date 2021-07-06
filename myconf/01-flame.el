@@ -51,8 +51,8 @@
 (setq garbage-collection-messages t)
 
 ;; GCを減らして軽くする.(10倍)
-(setq gc-cons-threshold (* gc-cons-threshold 20))
-
+;; (setq gc-cons-threshold 12800000)
+(setq gc-cons-threshold (* gc-cons-threshold 50))
 
 ;; かっこの自動挿入
 (electric-pair-mode 1)

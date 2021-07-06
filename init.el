@@ -59,3 +59,25 @@
 ;; 8 - 言語
 ;; 9 - 言語
 ;;-------------------------------------------------------------------------;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(company-dabbrev-code-other-buffers (quote all))
+ '(company-dabbrev-other-buffers (quote all))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (vlf yaml-mode use-package tabbar rust-mode recentf-ext python-mode pyflakes py-autopep8 projectile posframe neotree lsp-ui json-mode hiwin highlight-indent-guides hide-mode-line go-mode git-gutter-fringe flycheck doom-themes doom-modeline counsel company-lsp)))
+ '(show-paren-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(git-gutter:added ((t (:background "#50fa7b"))))
+ '(git-gutter:deleted ((t (:background "#ff79c6"))))
+ '(git-gutter:modified ((t (:background "#f1fa8c"))))
+ '(linum ((t (:inherit (shadow default) :background "#20232a" :foreground "gray65" :strike-through nil :underline nil :slant normal :weight normal)))))

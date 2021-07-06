@@ -12,6 +12,7 @@
 
 ;; gofmt適応
 (use-package go-mode
+  :ensure t  
   :commands go-mode
   :init
   (bind-key "C-c i" 'gofmt-before-save)
@@ -23,5 +24,9 @@
   (add-hook 'go-mode-hook 'go-eldoc-setup)
   ;; (setenv "GO111MODULE" "on")
   ;; (add-hook 'before-save-hook 'lsp-format-buffer)
+  :hook (go-mode . lsp-deferred)
   )
 
+(defun lsp-go-install-save-hooks()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
