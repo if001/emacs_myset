@@ -1,3 +1,8 @@
+;;; 70-python.el --- Python settings:
+
+;;; Commentary:
+
+;; Code:
 (use-package python-mode
   :config
   (add-hook 'python-mode-hook 'flycheck-mode)
@@ -6,7 +11,7 @@
   (use-package py-autopep8
     :hook
     (python-mode . py-autopep8-enable-on-save)
-    )  
+    )
   ;; (use-package flycheck-mode
   ;;   :after python-mode
   ;;   :hook
