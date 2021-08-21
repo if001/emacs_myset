@@ -24,8 +24,8 @@
 (define-key global-map [C-f10] 'multi-term)
 
 ;;タブ移動
-(global-set-key "\M-]" 'tabbar-forward)  ; 次のタブ
-(global-set-key "\M-[" 'tabbar-backward) ; 前のタブ
+;; (global-set-key "\M-]" 'tabbar-forward)  ; 次のタブ
+;; (global-set-key "\M-[" 'tabbar-backward) ; 前のタブ
 
 
 ;;ウィンドウ移動(mac)
