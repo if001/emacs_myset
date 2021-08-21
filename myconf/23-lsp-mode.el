@@ -1,3 +1,8 @@
+;;; 23-lsp-mode.el --- LSP settings:
+
+;;; Commentary:
+
+;; Code:
 (use-package lsp-mode
   :ensure t
   :custom
@@ -13,6 +18,13 @@
   (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-prefer-capf t)
+  (lsp-headerline-breadcrumb-enable nil)
+
+  (lsp-signature-activate nil)
+  (lsp-signature-render-documentation nil)
+  (lsp-signature-doc-lines 1)
+  (lsp-eldoc-enable-hover t)
+  
   :hook
   (lsp-mode . lsp-ui-mode)
   ;; golangのサーバー設定
@@ -44,24 +56,24 @@
   (lsp-ui-flycheck-enable t)
   ;;(lsp-ui-flycheck-list-position 'right)
 
+  ;; lsp-ui-sideline
+  (lsp-ui-sideline-enable nil)
+  ;; (lsp-ui-sideline-ignore-duplicate t)
+  ;; (lsp-ui-sideline-show-symbol t)
+  ;; (lsp-ui-sideline-show-hover t)
+  ;; (lsp-ui-sideline-show-diagnostics nil)
+  ;; (lsp-ui-sideline-show-code-actions nil)
+  
   ;; lsp-ui-peek
   (lsp-ui-peek-enable t)
   (lsp-ui-peek-peek-height 20)
   (lsp-ui-peek-list-width 50)
   (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
+  
   ;; lsp-ui-imenu
   (lsp-ui-imenu-enable nil)
   (lsp-ui-imenu-kind-position 'top)
-  ;; lsp-ui-sideline
-  (lsp-ui-sideline-enable nil)
-  ;; ;; :preface
-  ;; (defun ladicle/toggle-lsp-ui-doc ()
-  ;;   (interactive)
-  ;;   (if lsp-ui-doc-mode
-  ;;       (progn
-  ;;         (lsp-ui-doc-mode -1)
-  ;;         (lsp-ui-doc--hide-frame))
-  ;;     (lsp-ui-doc-mode 1)))
+  
   :commands lsp-ui-mode
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
