@@ -4,7 +4,14 @@
   (global-flycheck-mode t)
   ;; :hook
   ;; (prog-mode . (lambda () (setq flycheck-checker 'jsonlint)))
-  ;; :config
+  :config
+  (flycheck-define-checker css-csslint
+    "See URL `https://github.com/CSSLint/csslint'."
+    :command ("csslint" "--format=checkstyle-xml" "--warnings=import" "--errors=important" source)
+    :error-parser flycheck-parse-checkstyle
+    :error-filter flycheck-dequalify-error-ids
+    :modes css-mode
+    )
   ;; (add-to-list 'flycheck-checkers 'jsonlint)
   ;; (flycheck-define-checker jsonlint
   ;;     :command ("jsonlint" source-inplace)
