@@ -3,6 +3,12 @@
   (add-hook 'python-mode-hook 'flycheck-mode)
   (add-hook 'python-mode-hook #'lsp)
   (flymake-mode) ;; <- This line makes the trick of disabling flymake in python mode!
+  (use-package lsp-jedi
+    :ensure t
+    :config
+    (with-eval-after-load "lsp-mode"
+      (add-to-list 'lsp-disabled-clients 'pyls)
+      (add-to-list 'lsp-enabled-clients 'jedi)))  
   (use-package py-autopep8
     :hook
     (python-mode . py-autopep8-enable-on-save)
@@ -13,6 +19,7 @@
   ;;   (python-mode-hook . 'flycheck-mode)
   ;;   )
   )
+
 
 ; ;; --------------------------------------------------------------
 ;; googleの教えに従ったインデント幅

@@ -16,9 +16,9 @@
       )
   )
 
-(if (string-match "ac171.local" (system-name))
+(if (string-match "ac211.local" (system-name))
     (progn
-          (message "ac171.local settings")
+          (message "ac211.local settings")
     (set-face-attribute 'default nil
 			:family "Ricty Diminished"
 			:height 130)
