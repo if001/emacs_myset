@@ -127,3 +127,8 @@
   )
 ;---------------------------------------------------------------------;
 
+
+
+(setq sh-basic-offset 2)
+(setq sh-indentation 2)
+;;; 01-flame.el ends here

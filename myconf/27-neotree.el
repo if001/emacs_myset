@@ -6,6 +6,9 @@
   (neotree-show neotree-hide neotree-dir neotree-find)
   :custom
   (neo-theme 'nerd2)
+  (neo-window-fixed-size nil) ;; 幅を調節できるようにする
+  (neo-show-hidden-files t) ;; デフォルトで隠しファイル表示
+  ;; (after-save-hook 'neotree-refresh) 
   :bind
   ;;("<f8>" . neotree-projectile-toggle)
   ("<f8>" . neotree-project-dir)

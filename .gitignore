@@ -17,3 +17,5 @@ tramp
 kkcrc
 smex-items
 bookmarks
+
+.cache/*

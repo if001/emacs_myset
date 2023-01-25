@@ -4,6 +4,9 @@
 
 ;; Code:
 (use-package python-mode
+  :bind (
+	 ("C-<DEL>" . backward-kill-word)
+   )
   :config
   (add-hook 'python-mode-hook 'flycheck-mode)
   (add-hook 'python-mode-hook #'lsp)
@@ -13,7 +16,7 @@
     :config
     (with-eval-after-load "lsp-mode"
       (add-to-list 'lsp-disabled-clients 'pyls)
-      (add-to-list 'lsp-enabled-clients 'jedi)))  
+      (add-to-list 'lsp-enabled-clients 'jedi)))
   (use-package py-autopep8
     :hook
     (python-mode . py-autopep8-enable-on-save)
@@ -23,6 +26,18 @@
   ;;   :hook
   ;;   (python-mode-hook . 'flycheck-mode)
   ;;   )
+  )
+
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                          (require 'lsp-python-ms)
+;;                          (lsp)))
+  ;; :config
+  ;; (with-eval-after-load "lsp-mode"
+  ;;   (add-to-list 'lsp-disabled-clients 'pyls)
+  ;;   (add-to-list 'lsp-disabled-clients 'jedi))
   )
 
 

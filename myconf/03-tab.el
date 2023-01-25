@@ -22,7 +22,7 @@
      ;; Is not magit buffer.
      (and (string-prefix-p "magit" name)
 	  (not (file-name-extension name)))
-     )))
+     ))) 
   :custom
   (centaur-tabs-style "wave")
 
@@ -86,6 +86,10 @@
 ;; 		    :box nil)
 ;; (set-face-attribute 'tabbar-selected nil
 ;; 		    :background "grey50"
+;; 		    :foreground "#DCDCCC"
+;; 		    :box nil)
+;; (set-face-attribute 'tabbar-selected nil
+;; 		    :background "skyblue"
 ;; 		    :foreground "#DCDCCC"
 ;; 		    :box nil)
 ;; (set-face-attribute 'tabbar-unselected nil

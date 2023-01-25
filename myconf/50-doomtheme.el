@@ -14,28 +14,59 @@
   (doom-themes-neotree-config)
   (doom-themes-org-config)
   
-  ;; tab-lineの設定をここで上書き4
-  (set-face-attribute 'tab-line nil ;; background behind tabs
-		      :background "#2c2f33"
-		      :family "Ricty Diminished"
-		      :height 1.0 :box nil)
-  (set-face-attribute 'tab-line-tab nil ;; active tab in another window
-		      :inherit 'tab-line
-		      :background "grey20"
-		      :foreground "#DCDCCC"
-		      :box nil)
-  (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
-		      :background "grey50"
-		      :foreground "#DCDCCC"
-		      :box nil)
-  (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
-		      :background "grey20"
-		      :foreground "#DCDCCC"
-		      :box nil)
-  (set-face-attribute 'tab-line-highlight nil ;; mouseover
-		      :background "white"
-		      :foreground 'unspecified)
-)
+  ;; tab-lineの設定をここで上書き
+  ;; (set-face-attribute 'tab-line nil ;; background behind tabs
+  ;; 		      :background "#2c2f33"
+  ;; 		      :family "Ricty Diminished"
+  ;; 		      :height 1.0 :box nil)
+  ;; (set-face-attribute 'tab-line-tab nil ;; active tab in another window
+  ;; 		      :inherit 'tab-line
+  ;; 		      :background "grey20"
+  ;; 		      :foreground "#DCDCCC"
+  ;; 		      :box nil)
+  ;; (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+  ;; 		      :background "grey50"
+  ;; 		      :foreground "#DCDCCC"
+  ;; 		      :box nil)
+  ;; (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+  ;; 		      :background "grey20"
+  ;; 		      :foreground "#DCDCCC"
+  ;; 		      :box nil)
+  ;; (set-face-attribute 'tab-line-highlight nil ;; mouseover
+  ;; 		      :background "white"
+  ;; 		      :foreground 'unspecified)
+  ;; )
+
+  
+ (set-face-attribute
+  'centaur-tabs-selected nil
+  :foreground "white"
+  )
+ (set-face-attribute
+  'centaur-tabs-selected-modified nil
+  :foreground "white"
+  ) 
+ (set-face-attribute
+  'centaur-tabs-unselected nil
+  :foreground "#6272a4"
+  )
+ (set-face-attribute
+  'centaur-tabs-unselected-modified nil
+  :foreground "#6272a4"
+  ) 
+ (set-face-attribute
+   'centaur-tabs-modified-marker-unselected nil
+   :foreground "pink"
+   )  
+ (set-face-attribute
+   'centaur-tabs-modified-marker-selected nil
+   :foreground "pink"
+   )
+ 
+  )
+
+
+
     
 ;; (require 'doom-themes)
 ;; :config
