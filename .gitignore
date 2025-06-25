@@ -21,7 +21,7 @@ bookmarks
 .cache/*
 
 transient/
-tree-sit/
+tree-sitter/
 undo-fu-session/
 url/
 projects

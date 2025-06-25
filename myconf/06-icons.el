@@ -1,4 +1,17 @@
-  ;; M-x nerd-icons-install-fonts required
+;;; 06-icons.el --- Icons settings:
+
+;;; Commentary:
+;; all-the-iconsからnerd iconに移行
+;; M-x nerd-icons-install-fonts required
+
+;;; Code:
+
+
+;;; all-the-icons: アイコン表示のためのフォント
+;; (use-package all-the-icons
+;;   :if (display-graphic-p))
+
+
 (use-package nerd-icons)
 
 (use-package nerd-icons-dired

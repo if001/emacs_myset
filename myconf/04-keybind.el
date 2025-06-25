@@ -23,7 +23,8 @@
 
 (setq cua-enable-cua-keys nil)  ; CUAキーバインドを無効化
 ;; 上側に大きくスクロール
-(define-key global-map "\C-o" 'cua-scroll-down)
+;; (define-key global-map "\C-o" 'cua-scroll-down)
+(define-key global-map "\C-o" 'scroll-down)
 
 ;; mac のcommandとoptionを入れ替える
 (if (string-match "ac171.local" (system-name))

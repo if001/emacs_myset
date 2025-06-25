@@ -36,7 +36,6 @@
 (require 'init-loader)
 (init-loader-load "~/.emacs.d/myconf")
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -44,7 +43,6 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(inhibit-startup-screen t)
- '(lsp-log-io t nil nil "Customized with use-package lsp-mode")
  '(package-selected-packages nil)
  '(show-paren-mode t))
 (custom-set-faces

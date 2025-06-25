@@ -1,7 +1,16 @@
 # readme
+
+## install
+`install.sh`で必要なrepositoryをclone
+
 `brew install fd` 高速find
 
+`brew install git-delta` git-diffを見やすく
 
+emacsを一度起動してから、use-packageで必要なpackageをinstall後
+
+`M-x nerd-icons-install-fonts required`
+`M-x treesit-install-language-grammar RET python RET`
 
 ### site-lisp
 `site-lisp/`にgitからのコードを配置する
@@ -20,6 +29,8 @@ https://github.com/emacs-jp/init-loader.git
 ### nerd-icon
 `M-x nerd-icons-install-fonts`
 
+### LSP
+`M-x lsp-install-server` でserverのinstall
 
 ### python
 `brew install tree-sitter`
@@ -28,7 +39,7 @@ https://github.com/emacs-jp/init-loader.git
 `brew install python-lsp-server`
 
 以下でtreesitをインストールしておく
-M-x treesit-install-language-grammar RET python RET
+`M-x treesit-install-language-grammar RET python RET`
 
 ### go
 gopathをよしなに書き直す

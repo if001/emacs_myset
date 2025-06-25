@@ -10,10 +10,6 @@
 (if (not (equal (init-loader-error-log) ""))
     (init-loader-show-log))
 
-;;; all-the-icons: アイコン表示のためのフォント
-(use-package all-the-icons
-  :if (display-graphic-p))
-
 (use-package centaur-tabs
   :ensure t
   :init
