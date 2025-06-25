@@ -19,3 +19,13 @@ smex-items
 bookmarks
 
 .cache/*
+
+transient/
+tree-sit/
+undo-fu-session/
+url/
+projects
+
+myconf_def/
+init.el.def
+

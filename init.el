@@ -1,17 +1,7 @@
+
 ;;; init.el --- init:
 
 ;;; Commentary:
-
-;;; Code:
-
-
-(require 'profiler)
-(profiler-start 'cpu)
-
-;;-------------------------------------------------------------------------;;
-;;  -*- coding: utf-8-unix -*-
-;;-------------------------------------------------------------------------;;
-
 ;; C-x C-e でinit.elの設定反映(ショートカットC-f12)
 ;; M-x load-file RET ~/.emacs.d/init.el
 ;; で設定ファイルの再読み込み
@@ -19,19 +9,14 @@
 ;; バイトコンパイル(*.el → *.elc)は
 ;; M-x byte-compile-file RET
 
-
-
 ;;-------------------------------------------------------------------------;;
-;; load-pathの追加関数
-;; emacs-lispのファイルを読み込むパスを設定
+;;  -*- coding: utf-8-unix -*-
+;;-------------------------------------------------------------------------;;
 
-;; load-pathで指定したディレクトリのサブディレクトリもload-pathに追加する設定
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+;;; Code:
+(require 'profiler)
+(profiler-start 'cpu)
 
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -41,34 +26,36 @@
         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
             (normal-top-level-add-subdirs-to-load-path))))))
 
-;; load-pathに追加するフォルダ
-;; .emacs.dからの相対パスで記述
-(add-to-load-path "elpa/"
-		  "site-lisp/")
-
-;; use-packageで自動インストール
-(setq use-package-always-ensure t)
-;;-------------------------------------------------------------------------;;
+;; デフォルトでensure t
+(use-package use-package
+  :config
+  (setq use-package-always-ensure t))
 
 
-;;-------------------------------------------------------------------------;;
-;; init-loaderの設定
-;; 設定ファイルを分割して読み込む
+(add-to-list 'load-path (expand-file-name "site-lisp/init-loader/" user-emacs-directory))
 (require 'init-loader)
 (init-loader-load "~/.emacs.d/myconf")
-;; 0 - 環境周りの設定
-;; 1 - 環境周りの設定
-;; 2 - マイナーモードなど
-;; 3 - マイナーモードなど
-;; 4 - マイナーモードなど
-;; 5 - theme
-;; 6 - theme
-;; 7 - 言語
-;; 8 - 言語
-;; 9 - 言語
-;;-------------------------------------------------------------------------;;
-(profiler-report)
-(profiler-stop)
-;;-------------------------------------------------------------------------;;
 
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(inhibit-startup-screen t)
+ '(lsp-log-io t nil nil "Customized with use-package lsp-mode")
+ '(package-selected-packages nil)
+ '(show-paren-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+;; Local Variables:
+;; indent-tabs-mode: nil
+;; End:
+
+(provide 'init)
 ;;; init.el ends here

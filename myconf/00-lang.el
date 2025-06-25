@@ -41,5 +41,7 @@
 ;; ｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵｱｲｳｴｵ
 ;; あいうえおあいうえおあいうえおあいうえお
 
+  
+(message "00-lang.el loaded")
+;;; 00-lang.el ends her
 
-;;; 00-lang.el ends here

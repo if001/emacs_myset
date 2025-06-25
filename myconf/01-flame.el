@@ -16,8 +16,8 @@
 ;;起動時のフレームサイズを設定する
 (setq initial-frame-alist
       (append (list
-	'(width . 200)
-        '(height . 65)
+	'(width . 150)
+        '(height . 50)
         )
 	      initial-frame-alist))
 (setq default-frame-alist initial-frame-alist)
@@ -51,13 +51,20 @@
 ;;; 画像ファイルを表示する
 (auto-image-file-mode t)
 
-;; ガベージコレクションが発動したら表示
-(setq garbage-collection-messages t)
-
+;; ガベージコレクションの設定
+;; (setq garbage-collection-messages t)
+(setq gc-cons-percentage 0.2
+      gc-cons-threshold (* 128 1024 1024))
+(add-hook 'focus-out-hook #'garbage-collect)
 ;; GCを減らして軽くする.(10倍)
 ;; (setq gc-cons-threshold 12800000)
 ;; (setq gc-cons-threshold (* gc-cons-threshold 50))
-(setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
+;; (setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
+
+;; 長い行を含むファイルの最適化
+(use-package so-long
+  :init
+  (global-so-long-mode +1))
 
 ;; かっこの自動挿入
 (electric-pair-mode 1)
@@ -67,68 +74,89 @@
       scroll-margin 0
       scroll-step 1)
 (setq comint-scroll-show-maximum-output t) ;; shell-mode
+
+
+;; 行番号表示
+(global-display-line-numbers-mode 1) ;; グローバル
+;; 絶対行番号（デフォルト）
+(setq display-line-numbers-type t)
+;;(setq display-line-numbers-type 'relative) ;; 相対行番号
+;;(setq display-line-numbers-type 'visual) ;; 視覚的な行番号（折り畳みやラップを考慮）
+
+
+;; 現在行を強調表示
+;; hl-line-mode を強化するパッケージ
+(use-package lin
+  :init
+  (setq lin-face 'lin-red)
+  (lin-global-mode +1))
+
+;; camelCase単位で移動する
+(use-package subword
+  :init
+  (global-subword-mode +1))
+
+
+;; カーソルの移動を視覚的に分かりやすくしてくれます。beaconよりもシンプルな実装になっています。
+(use-package pulsar
+  :config
+  (pulsar-global-mode +1)
+  ;; (pulsar-pulse t)
+)
+
+
+;; 画面の余白を付けてくれます。カスタマイズ変数を調整することでモードラインも良い感じにしてくれます。
+(use-package spacious-padding
+  :config
+  (setq spacious-padding-widths
+        '( :internal-border-width 15
+           :header-line-width 4
+           :mode-line-width 6
+           :tab-width 4
+           :right-divider-width 30
+           :scroll-bar-width 8))
+
+  ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
+  ;; is very flexible and provides several examples.
+  (setq spacious-padding-subtle-mode-line
+        `( :mode-line-active 'default
+           :mode-line-inactive vertical-border))
+
+  (spacious-padding-mode +1))
+
+;; 括弧等の構造を操作するパッケージ
+;; (use-package puni
+;;   :ensure t
+;;   :config
+;;   (puni-global-mode +1))
+
+
+;; 高速で不正確なスクロール
+(setq fast-but-imprecise-scrolling t)
+
+
+;; バッファ上部にパンくずリストを表示してくれます。
+(use-package breadcrumb
+  :ensure nil
+  :load-path "site-lisp/breadcrumb"
+  :config
+  (breadcrumb-mode +1))
+
+;; imenuを一覧表示してくれます。
+;; (use-package imenu-list
+;;   :bind ( :map my-toggle-map
+;;           ("i" . imenu-list-smart-toggle))
+;;   :init
+;;   (setq imenu-list-position 'left))
+
+;; undoとredoを強化
+(use-package undo-fu
+  :config
+  (with-eval-after-load 'evil
+    (setq evil-undo-system 'undo-fu)))
+
+;; undo情報をEmacs終了後も保持してくれるようになります。
+(use-package undo-fu-session
+  :config
+  (undo-fu-session-global-mode +1))
 ;;-------------------------------------------------------------------------;;
-
-
-;;-------------------------------------------------------------------------;;
-;;行番号の表示
-(require 'linum)
-(global-linum-mode)
-;; (custom-set-faces
-;;  '(linum ((t (
-;; 	      :inherit (shadow default)
-;; 		       :background "#20232a"
-;; 		       :foreground "gray65"
-;; 		       )))))
-(custom-set-faces
- '(linum ((t (:inherit (shadow default) :background "#20232a" :foreground "gray65" :strike-through nil :underline nil :slant normal :weight normal)))))
-
-(setq linum-format "%4d")  ;;予めマージンを指定
-
-;; モードラインに行数を非表示に
-(line-number-mode nil)
-;;-------------------------------------------------------------------------;;
-
-
-
-
-;---------------------------------------------------------------------;
-;; キーバインドでwindow sizeを変更
-;; 使わんけど一応入れておく
-(defun window-resizer ()
-  "Control window size and position."
-  (interactive)
-  (let ((window-obj (selected-window))
-        (current-width (window-width))
-        (current-height (window-height))
-        (dx (if (= (nth 0 (window-edges)) 0) 1
-              -1))
-        (dy (if (= (nth 1 (window-edges)) 0) 1
-              -1))
-        c)
-    (catch 'end-flag
-      (while t
-        (message "size[%dx%d]"
-                 (window-width) (window-height))
-        (setq c (read-char))
-	;;(setq c (read-key))
-        (cond ((= c ?r)
-               (enlarge-window-horizontally dx))
-              ((= c ?l)
-               (shrink-window-horizontally dx))
-              ((= c ?d)
-               (enlarge-window dy))
-              ((= c ?u)
-               (shrink-window dy))
-              ;; otherwise
-              (t
-               (message "Quit")
-               (throw 'end-flag t))))))
-  )
-;---------------------------------------------------------------------;
-
-
-
-(setq sh-basic-offset 2)
-(setq sh-indentation 2)
-;;; 01-flame.el ends here

@@ -1,100 +1,75 @@
-;;; 31-org.el --- org-mode settings:
+;;; 31-org.el --- Org settings:
 
 ;;; Commentary:
 
-;;; Code:
-(cond
- ((string-match "ac211.local" (system-name))
-  (defvar org-dir "/Users/ac211/prog/org/")
-  )
- ((string-match "issei-All-Series" (system-name))
-  (defvar org-dir "/home/issei/Dropbox/org/")
-  )
- (nil (defvar org-dir "~/org/"))
- )
-
-
-;; dirの存在チェックのためdirとfileをわけてるけど、いい感じにしたい
-(defvar default-dir "notes/")
-(defvar default-note "notes.org")
-(defvar default-note-path (concat default-dir default-note))
-(defvar default-note-full-path (concat org-dir default-note-path))
-
-(defvar coursera-dir "coursera/")
-(defvar coursera-note "coursera.org")
-(defvar coursera-note-path (concat coursera-dir coursera-note))
-(defvar coursera-note-full-path (concat org-dir coursera-note-path))
-
-(defvar blog-memo-dir "blog-memo/")
-(defvar blog-memo-note "blog-memo.org")
-(defvar blog-memo-note-path (concat coursera-dir coursera-note))
-(defvar blog-memo-note-full-path (concat org-dir coursera-note-path))
-
-(defvar movie-dir "movie/")
-(defvar movie-note "memo.org")
-(defvar movie-note-path (concat movie-dir movie-note))
-(defvar movie-note-full-path (concat org-dir movie-note-path))
-
-
-(defun init-dir (file-path)
-  "If not exist FILE-PATH, then create."
-  (let ((dir (concat org-dir file-path)))
-    (when (not (file-exists-p dir))
-      (message "init create: %s" dir)
-      (mkdir dir)
-      )
-    )
-  )
-
-
-
-(defun show-org-buffer (file)
-  "Show an org-file FILE on the current buffer."
-  (interactive)
-  (if (get-buffer file)
-      (let ((buffer (get-buffer file)))
-	(switch-to-buffer buffer)
-	(message "org: %s" (concat org-dir file))
-	)
-    (find-file (concat org-dir file))))
+;; Code:
 
 (use-package org
+  :init
+  (setq org-return-follows-link t  ; Returnキーでリンク先を開く
+        org-mouse-1-follows-link t ; マウスクリックでリンク先を開く
+        ))
+
+
+;; アンダースコアを入力しても下付き文字にならないようにする
+(setq org-use-sub-superscripts '{}
+      org-export-with-sub-superscripts nil)
+
+
+;; org-indent-mode
+;; インデント機能を有効にしています。
+(use-package org-indent
+  :ensure nil
+  :hook (org-mode . org-indent-mode))
+
+
+;; org用のシンプルなメモ取りツール
+(use-package denote
   :ensure t
   :init
-  (init-dir default-dir)
-  (init-dir coursera-dir)
-  :custom
-  (org-support-shift-select 'always)
-  (org-startup-folded 'content)
+  (with-eval-after-load 'org
+    (setq denote-directory org-directory))
+
   :config
-  (use-package org-preview-html
-    :bind
-    ("M-p" . org-preview-html/preview)
-    )
-  (when (file-directory-p org-dir)
-    (setq org-directory org-dir)
-    (setq org-capture-templates
-	  '(
-	    ("n" "Note" entry (file+headline default-note-full-path "note") "* %?\nEntered on %U\n %i\n %a")
-	    ("c" "Coursera" entry (file+headline coursera-note-full-path "coursera") "* %?\nEntered on %U\n %i\n %a")
-	    ("b" "Blog-memo" entry (file+headline coursera-note-full-path "blog-memo") "* %?\nEntered on %U\n %i\n %a")
-	    ("m" "Movie-memo" entry (file+headline movie-note-full-path "movie") "* %?\nEntered on %U\n %i\n %a")
-	    )
-	  )
-    )
-  :bind
-  (
-   ("C-c C-9" . (lambda() (interactive) (show-org-buffer default-note-path)))
-   ("C-c C-0" . (lambda() (interactive) (show-org-buffer coursera-note-path)))
-   ("C-c C-8" . (lambda() (interactive) (show-org-buffer blog-memo-note-path)))
-   ("C-c C-7" . (lambda() (interactive) (show-org-buffer movie-note-path)))
-   ("C-c c" . org-capture)
-   ("M-." . org-open-at-point)
-   )
-  )
+  (with-eval-after-load 'meow
+    (meow-leader-define-key
+     '("d" . denote-open-or-create)))
 
-(use-package org-bullets
+  ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+  (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+  (add-hook 'context-menu-functions #'denote-context-menu)
+
+  (denote-rename-buffer-mode +1))
+
+
+;; org-mode用のtheme
+(use-package org-modern
   :ensure t
-  :hook (org-mode . org-bullets-mode))
+  :config
+  (setopt
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
 
-;;; 31-org.el ends here
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+
+   ;; Agenda styling
+   org-agenda-tags-column 0
+   org-agenda-block-separator ?─
+   org-agenda-time-grid
+   '((daily today require-timed)
+     (800 1000 1200 1400 1600 1800 2000)
+     " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-current-time-string
+   "◀── now ─────────────────────────────────────────────────")
+
+  ;; Ellipsis styling
+  (setopt org-ellipsis "…")
+  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
+
+  (global-org-modern-mode))

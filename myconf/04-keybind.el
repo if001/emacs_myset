@@ -11,51 +11,16 @@
 ;; bind-keyに置き換えたい
 ;; http://emacs.rubikitch.com/bind-key/
 
-; コメントアウト
-(define-key global-map "\C-c;" 'comment-region)
+;; window移動
+(global-set-key (kbd "C-t") 'other-window)
 
-; コメント解除
+; コメントアウト
+;; (define-key global-map "\C-c;" 'comment-region)
+(define-key global-map (kbd "C-;") 'comment-region)
+
+; コメント解除 (:はkbdつけない)
 (define-key global-map "\C-c:" 'uncomment-region)
 
-; undo
-(define-key global-map "\C-z" 'undo)
-
-;multi-term起動
-(define-key global-map [C-f10] 'multi-term)
-
-;;タブ移動
-;; (global-set-key "\M-]" 'tabbar-forward)  ; 次のタブ
-;; (global-set-key "\M-[" 'tabbar-backward) ; 前のタブ
-
-
-;;ウィンドウ移動(mac)
-;; (when (eq system-type 'darwin)
-  ;; dired-mode でC-t無効化
-;;  (define-key dired-mode-map (kbd "C-t") nil)
-  ;; term-mode でC-t無効化
-  ;;(define-key term-mode-map (kbd "C-t") nil)
-  ;;(define-key term-mode-hook (kbd "C-t") nil)
-;;  (global-set-key [(C t)] 'other-window))
-
-(when (eq system-type 'darwin)
-  (eval-after-load "dired" '(progn
-			      (define-key dired-mode-map (kbd "C-t") 'other-window) ))
-  )
-(define-key global-map "\C-t" 'other-window)
-
-;;ウィンドウ移動(linux)
-(when (eq system-type 'gnu/linux)
-  (define-key global-map [C-up] 'other-window)
-  (define-key global-map [C-down] 'other-window)
-  (define-key global-map [C-right] 'other-window)
-  (define-key global-map [C-left] 'other-window))
-
-;; (define-key global-map (kbd "\C-c <up>") 'windmove-up)
-;; (define-key global-map (kbd "\C-c <right>") 'windmove-right)
-;; (define-key global-map (kbd "\C-c <down>") 'windmove-down)
-
-
-(cua-mode t)  ; cua-modeをオン
 (setq cua-enable-cua-keys nil)  ; CUAキーバインドを無効化
 ;; 上側に大きくスクロール
 (define-key global-map "\C-o" 'cua-scroll-down)
@@ -76,10 +41,16 @@
 (if (string-match "ac211.local" (system-name))
        (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
-)
-
-(if (string-match "ac211" (system-name))
+) 
+(if (string-match "ifmac.local" (system-name))
        (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super))
  )
 
+
+;; (if (string-match "darwin" (system-type))
+;;        (setq ns-command-modifier (quote meta))
+;;  (setq ns-alternate-modifier (quote super))
+;; )
+
+(message "loaded 04-keybind.el")

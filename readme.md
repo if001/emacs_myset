@@ -1,26 +1,34 @@
 # readme
-### use-package
-初回起動時に、use-packageをいれる
-`M-x package-install [RET] use-package`
+`brew install fd` 高速find
+
+
 
 ### site-lisp
 `site-lisp/`にgitからのコードを配置する
 
-- company-mode  
-https://github.com/company-mode/company-mode.git  
 - expand-region  
 https://github.com/magnars/expand-region.el.git  
 - flymake-posframe  
 https://github.com/Ladicle/flymake-posframe.git  
-- highlight-indent-guides  
-https://github.com/DarthFennec/highlight-indent-guides.git  
 - init-loader  
 https://github.com/emacs-jp/init-loader.git  
-- all-the-icons  
-https://github.com/domtronn/all-the-icons.el.git  
+
 
 ### all-the-icons
-`site-lisp/all-the-icons/fonts`以下のフォントを`~/Libraly/fonts`以下に移動する
+`M-x all-the-icons-install-fonts`
+
+### nerd-icon
+`M-x nerd-icons-install-fonts`
+
+
+### python
+`brew install tree-sitter`
+
+[pylsp](https://github.com/python-lsp/python-lsp-server)  
+`brew install python-lsp-server`
+
+以下でtreesitをインストールしておく
+M-x treesit-install-language-grammar RET python RET
 
 ### go
 gopathをよしなに書き直す
@@ -28,3 +36,8 @@ gopathをよしなに書き直す
 `(add-to-list 'exec-path (expand-file-name "your go path"))`
 
 `$ go get -u -v github.com/nsf/gocode`
+
+
+### Vertico と Consult
+Consultで、bufferやファイルなどの候補を表示
+

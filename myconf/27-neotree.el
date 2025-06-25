@@ -1,4 +1,9 @@
-;; ------------------------------------------------------
+;;; 27-neotree.el --- settings:
+
+;;; Commentary:
+
+;; Code:
+
 (use-package neotree
   :after
   projectile
