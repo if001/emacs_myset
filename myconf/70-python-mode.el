@@ -105,7 +105,7 @@
   ;; (with-eval-after-load "lsp-mode"
   ;;   (add-to-list 'lsp-disabled-clients 'pyls)
   ;;   (add-to-list 'lsp-disabled-clients 'jedi))
-)
+;; )
 
 ;; ;; googleの教えに従ったインデント幅
 ;; (add-hook 'python-mode-hook

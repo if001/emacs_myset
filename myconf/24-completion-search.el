@@ -1,4 +1,5 @@
 
+
 ;;; 24-completion-search.el --- use vertico:
 
 ;;; Commentary:
@@ -96,7 +97,7 @@
 (use-package embark-consult
   :after (embark consult)
   :hook
-  (embark-collect-mode . consult-preview-at-point-mode)) ; Previews in Embark Collect
+  (embark-collect-mode . consult-preview-at-point-mode) ; Previews in Embark Collect
   :config
   ;; Embark のアクションに Consult コマンドを追加
   ;; (embark-consult-define-keymap)
@@ -146,6 +147,7 @@
 
     (add-to-list 'consult-buffer-sources 'beframe-consult-source))
 
-  (beframe-mode +1))
+  (beframe-mode +1)
+  )
 
 (message "loaded 24-completion-search")

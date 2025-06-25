@@ -59,15 +59,15 @@
 
 
 ;; 補完
-(use-package tabnine
-  :hook (kill-emacs . tabnine-kill-process)
-  :bind ( :map tabnine-completion-map
-          ("TAB" . nil)
-          ("<tab>" . nil))
-  :config
-  (setq tabnine-inline-completion-mode t) ; Enable inline completion
-  :init
-  (global-tabnine-mode +1))
+;; (use-package tabnine
+;;   :hook (kill-emacs . tabnine-kill-process)
+;;   :bind ( :map tabnine-completion-map
+;;           ("TAB" . nil)
+;;           ("<tab>" . nil))
+;;   :config
+;;   (setq tabnine-inline-completion-mode t) ; Enable inline completion
+;;   :init
+;;   (global-tabnine-mode +1))
 
 
 ;;; Cape: corfuの強化、他の補完系との連携を行う
@@ -117,9 +117,9 @@
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (with-eval-after-load 'tabnine
-    (advice-add 'tabnine-completion-at-point #'cape-wrap-buster)
-    (add-hook 'completion-at-point-functions #'tabnine-completion-at-point))
+  ;; (with-eval-after-load 'tabnine
+  ;;   (advice-add 'tabnine-completion-at-point #'cape-wrap-buster)
+  ;;   (add-hook 'completion-at-point-functions #'tabnine-completion-at-point))
   )
 
 ;; dabbrevのサイズを制限

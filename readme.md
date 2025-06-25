@@ -10,7 +10,10 @@
 emacsを一度起動してから、use-packageで必要なpackageをinstall後
 
 `M-x nerd-icons-install-fonts required`
+`tab`
 `M-x treesit-install-language-grammar RET python RET`
+
+
 
 ### site-lisp
 `site-lisp/`にgitからのコードを配置する

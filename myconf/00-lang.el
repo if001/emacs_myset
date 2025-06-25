@@ -21,10 +21,10 @@
           (message "ac211.local settings")
     (set-face-attribute 'default nil
 			:family "Ricty Diminished"
-			:height 130)
+			:height 140)
   (set-fontset-font
    nil 'japanese-jisx0208
-   (font-spec :family "Hiragino Kaku Gothic ProN" :size 9))
+   (font-spec :family "Hiragino Kaku Gothic ProN" :size 10))
   ;; 英語と日本語の比率を1：2に設定
   (add-to-list 'face-font-rescale-alist
 	       '(".*Hiragino Kaku Gothic ProN.*" . 1.2))

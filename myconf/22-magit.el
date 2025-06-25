@@ -16,7 +16,6 @@
 
 ;; (global-set-key (kbd "C-x g") 'magit-status)
 (use-package git-gutter-fringe
-  :ensure t
   :custom-face
   (git-gutter:modified . '((t (:background "#f1fa8c"))))
   (git-gutter:added    . '((t (:background "#50fa7b"))))

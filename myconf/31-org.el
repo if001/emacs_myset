@@ -3,13 +3,22 @@
 ;;; Commentary:
 
 ;; Code:
-
 (use-package org
   :init
   (setq org-return-follows-link t  ; Returnキーでリンク先を開く
         org-mouse-1-follows-link t ; マウスクリックでリンク先を開く
-        ))
-
+        )
+  ;; TODOキーワード設定
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "DOIN(i)" "WAIT(w)" "|" "DONE(d)")))
+  (setq org-todo-keyword-faces
+	'(
+	  ("WAIT"  . (:foreground "CadetBlue3"      :weight bold))
+	  ("TODO"  . (:foreground "LightGoldenrod3" :weight bold))
+	  ))
+  ;; DONEステータス時の見出しの色を変えない
+  (setq org-fontify-done-headline nil)
+  )
 
 ;; アンダースコアを入力しても下付き文字にならないようにする
 (setq org-use-sub-superscripts '{}
@@ -25,7 +34,6 @@
 
 ;; org用のシンプルなメモ取りツール
 (use-package denote
-  :ensure t
   :init
   (with-eval-after-load 'org
     (setq denote-directory org-directory))
@@ -41,11 +49,10 @@
 
   (denote-rename-buffer-mode +1))
 
-
 ;; org-mode用のtheme
 (use-package org-modern
-  :ensure t
   :config
+  
   (setopt
    ;; Edit settings
    org-auto-align-tags nil
@@ -73,3 +80,5 @@
   (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
 
   (global-org-modern-mode))
+
+(message "load 31-org.el")

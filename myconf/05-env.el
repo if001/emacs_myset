@@ -46,14 +46,12 @@
 (setq redisplay-skip-fontification-on-input t)
 
 ;; 各OSの最適化
-(when IS-WINDOWS
-  (setq w32-use-native-image-API t))
-
-(unless IS-MAC
-  (setq command-line-ns-option-alist nil))
-
-(unless IS-LINUX
-  (setq command-line-x-option-alist nil))
+;; (when IS-WINDOWS
+;;   (setq w32-use-native-image-API t))
+;; (unless IS-MAC
+;;   (setq command-line-ns-option-alist nil))
+;; (unless IS-LINUX
+;;   (setq command-line-x-option-alist nil))
 
 
 ;; キーバインドを可視化してくれます。

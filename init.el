@@ -43,7 +43,16 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(inhibit-startup-screen t)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(beframe cape centaur-tabs consult-eglot corfu dashboard denote
+             diff-hl ef-themes eglot-signature-eldoc-talkative
+             eglot-tempel eldoc-box embark-consult git-gutter-fringe
+             gptel hide-mode-line highlight-indent-guides kind-icon
+             lin lsp-mode magit-delta marginalia minions modus-themes
+             neotree nerd-icons-completion nerd-icons-dired nyan-mode
+             orderless org-modern projectile pulsar python-black
+             pyvenv spacious-padding symbol-overlay tempel-collection
+             treesit-auto undo-fu undo-fu-session vertico))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

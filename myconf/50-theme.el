@@ -42,5 +42,22 @@
 ;; dashboard
 (use-package dashboard
   :config
+  (dashboard-setup-startup-hook)
+  (add-to-list 'dashboard-item-generators
+               '(error-status . (lambda (list-size)
+                                  (when (not (equal (init-loader-error-log) ""))
+				    (dashboard-insert-heading "ERROR")
+				    (insert "\n初期化時にエラーが発生しました。\n*init-log* を確認してください")))))
+  (setq dashboard-items '(
+			  (recents   . 5)
+			  (projects   . 5)
+			  (agenda    . 5)
+			  (bookmarks . 5)
+			  (error-status . nil)
+			  ))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-display-icons-p t)
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-file-icons t)
   (setq dashboard-center-content t)
-  (dashboard-setup-startup-hook))
+  )

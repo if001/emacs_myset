@@ -3,7 +3,8 @@
   :config
   (setq recentf-max-saved-items 100)              ;; consult-bufferに表示する最近使ったファイルの最大表示数
   (setq recentf-exclude '(".recentf" "^/ssh:"))  ;; recentfの履歴に含ませないファイルリスト
-  (setq recentf-auto-cleanup 10)
+  (setq recentf-auto-cleanup 'never)  ;; 存在しないファイルは消さない
+  ;;(setq recentf-auto-cleanup 10)  
 
   (setq recentf-auto-save-timer
         (run-with-idle-timer 30 t 'recentf-save-list)) ;; バッファを開いて30秒以上したら履歴に登録

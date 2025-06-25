@@ -83,7 +83,6 @@
 ;;(setq display-line-numbers-type 'relative) ;; 相対行番号
 ;;(setq display-line-numbers-type 'visual) ;; 視覚的な行番号（折り畳みやラップを考慮）
 
-
 ;; 現在行を強調表示
 ;; hl-line-mode を強化するパッケージ
 (use-package lin
@@ -158,5 +157,20 @@
 ;; undo情報をEmacs終了後も保持してくれるようになります。
 (use-package undo-fu-session
   :config
-  (undo-fu-session-global-mode +1))
+  (undo-fu-session-global-mode +1)
+  )
+
+;; indetにハイライトつける
+(use-package highlight-indent-guides
+  ;; :init
+  :diminish
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-auto-enabled t)
+  (highlight-indent-guides-responsive t)
+  ;; (highlight-indent-guides-method 'character) ;; column
+ (highlight-indent-guides-method 'bitmap) ;; column   
+  )
+
+(message "loaded 01-flame.el")
 ;;-------------------------------------------------------------------------;;
