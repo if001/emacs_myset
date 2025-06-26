@@ -6,13 +6,13 @@
 
 (use-package magit)
 
-;; magitのdiffを見やすく
-(use-package magit-delta
-  :after magit
-  :hook (magit-mode-hook)
-  :custom
-  (magit-delta-delta-args '("--side-by-side" "--line-numbers")) ;; side-by-sideで見れない;;
-  )
+;; ;; magitのdiffを見やすく
+;; (use-package magit-delta
+;;   :after magit
+;;   :hook (magit-mode-hook)
+;;   :custom
+;;   (magit-delta-delta-args '("--side-by-side" "--line-numbers")) ;; side-by-sideで見れない;;
+;;   )
 
 ;; (global-set-key (kbd "C-x g") 'magit-status)
 (use-package git-gutter-fringe
