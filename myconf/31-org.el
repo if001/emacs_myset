@@ -51,8 +51,9 @@
 
 ;; org-mode用のtheme
 (use-package org-modern
+  :custom
+  (org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("▸" . "▾") ("▹" . "▿") ("▸" . "▾")))
   :config
-  
   (setopt
    ;; Edit settings
    org-auto-align-tags nil
