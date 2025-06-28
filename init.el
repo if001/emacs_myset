@@ -31,11 +31,16 @@
   :config
   (setq use-package-always-ensure t))
 
+(use-package init-loader
+  :ensure nil
+  :after use-package
+  :load-path "site-lisp/init-loader/"
+  :config
+  (init-loader-load "~/.emacs.d/myconf")
+  )
 
-(add-to-list 'load-path (expand-file-name "site-lisp/init-loader/" user-emacs-directory))
-(require 'init-loader)
-(init-loader-load "~/.emacs.d/myconf")
-
+(provide 'init)
+;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
