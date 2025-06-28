@@ -52,6 +52,16 @@ gopathをよしなに書き直す
 `$ go get -u -v github.com/nsf/gocode`
 
 
+### secrets
+`.emacs.d/escrets.el`を作成
+
+```lisp
+;; secrets.el
+(defvar gemini-api-key "XXXXXX")
+
+(message "load secrets")
+```
+
 ### Vertico と Consult
 Consultで、bufferやファイルなどの候補を表示
 
