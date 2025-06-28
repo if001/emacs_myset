@@ -41,7 +41,13 @@
 
 ;; dashboard
 (use-package dashboard
-  :config
+  :init
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-display-icons-p t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-center-content t)
+  :config  
   (dashboard-setup-startup-hook)
   (add-to-list 'dashboard-item-generators
                '(error-status . (lambda (list-size)
@@ -54,10 +60,12 @@
 			  (agenda    . 5)
 			  (bookmarks . 5)
 			  (error-status . nil)
-			  ))
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-display-icons-p t)
-  (setq dashboard-icon-type 'nerd-icons)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-center-content t)
+			  ))  
+  (setq dashboard-heading-icons '((recents   . "nf-oct-history")
+				  (projects  . "nf-oct-rocket")
+				  (agenda    . "nf-oct-calendar")
+                                  (bookmarks . "nf-oct-bookmark")
+                                  (registers . "nf-oct-database")
+				  (error-status . "nf-oct-bug")
+				  ))
   )

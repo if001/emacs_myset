@@ -80,6 +80,13 @@
               :override #'eglot-signature-eldoc-talkative))
 
 
+;; emacs-lsp-booster ;; M-x eglot-booster
+(use-package eglot-booster
+  :ensure nil
+  :after eglot
+  :config	(eglot-booster-mode))
+
+
 ;;; lsp-mode: Language Serverのインストール・管理にのみ使用
 ;;; lsp-install-serverコマンドを使う
 (use-package lsp-mode

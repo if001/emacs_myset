@@ -61,7 +61,7 @@
 	'(
 	  ;; タスク
 	  ("t" "task" entry (file+headline taskfile "Task")
-	   "** TODO %? \n :PROPERTIES:\n :CREATED: %U\n  :END:\n %i\n %a\n"  :empty-lines 1)
+	   "** TODO %? \n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n %i\n %a\n"  :empty-lines 1)
 	  ("c" "chats" entry (file+headline chatfile "Chats")
 	   "** %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n"  :empty-lines 1)
           ;; ("i" "Idea" entry (file+olp+datetree ideafile)
@@ -94,13 +94,11 @@
 (use-package denote
   :init
   (with-eval-after-load 'org
-    (setq denote-directory org-directory))
+    (setq denote-directory "~/prog/org/denote/"))
 
+  :custom
+  (denote-known-keywords '("emacs" "memo" "tweet"))
   :config
-  (with-eval-after-load 'meow
-    (meow-leader-define-key
-     '("d" . denote-open-or-create)))
-
   ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
   (add-hook 'context-menu-functions #'denote-context-menu)

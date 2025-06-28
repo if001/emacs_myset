@@ -53,6 +53,8 @@
 ;; (unless IS-LINUX
 ;;   (setq command-line-x-option-alist nil))
 
+;; paste時、regionを削除してpasteする
+(delete-selection-mode 1)
 
 ;; キーバインドを可視化してくれます。
 (use-package which-key

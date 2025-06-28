@@ -16,7 +16,7 @@
 
 ;;; Code:
 (require 'profiler)
-(profiler-start 'cpu)
+;; (profiler-start 'cpu)
 
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -31,11 +31,18 @@
   :config
   (setq use-package-always-ensure t))
 
+;; load api key
+(let ((secrets-file (expand-file-name "secrets.el" user-emacs-directory)))
+  (when (file-exists-p secrets-file)
+    (load-file secrets-file)))
 
 (add-to-list 'load-path (expand-file-name "site-lisp/init-loader/" user-emacs-directory))
 (require 'init-loader)
 (init-loader-load "~/.emacs.d/myconf")
 
+
+(provide 'init)
+;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -43,16 +50,7 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(inhibit-startup-screen t)
- '(package-selected-packages
-   '(beframe cape centaur-tabs consult-eglot corfu dashboard denote
-             diff-hl ef-themes eglot-signature-eldoc-talkative
-             eglot-tempel eldoc-box embark-consult git-gutter-fringe
-             gptel hide-mode-line highlight-indent-guides kind-icon
-             lin lsp-mode magit-delta marginalia minions modus-themes
-             neotree nerd-icons-completion nerd-icons-dired nyan-mode
-             orderless org-modern projectile pulsar python-black
-             pyvenv spacious-padding symbol-overlay tempel-collection
-             treesit-auto undo-fu undo-fu-session vertico))
+ '(package-selected-packages nil)
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -60,9 +58,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;; Local Variables:
-;; indent-tabs-mode: nil
-;; End:
-
-(provide 'init)
-;;; init.el ends here
