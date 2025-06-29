@@ -25,7 +25,7 @@
   :config
   (setq work-directory "~/prog/org/")
 
-  (setq listfile (concat work-directory "list100.org"))
+  (setq listfile (concat work-directory "list.org"))
   (setq chatfile (concat work-directory "chats.org"))
   (setq ideafile (concat work-directory "idea/idea.org"))
   
@@ -56,6 +56,7 @@
   (setq laterfile (yy-mm-file (concat work-directory "later/") "later"))
   (setq memofile (yy-mm-file (concat work-directory "memo/") "memo"))
   (setq chatfile (yy-mm-dd-file (concat work-directory "chat/") "chat"))
+  (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
   
   (setq org-capture-templates
 	'(
@@ -70,7 +71,7 @@
            "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n  %a\n"  :empty-lines 1)
 	  ("a" "Any Idea" entry (file+headline ideafile)
            "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Any \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
-	  ("e" "Tec Idea" entry (file+headline ideafile)
+	  ("e" "Tec Idea" entry (file techfile)
            "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Tec \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
 	  ("m" "Memo" entry (file+headline memofile "Memo")
            "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n  %a\n" :empty-lines 1)

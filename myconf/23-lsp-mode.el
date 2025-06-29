@@ -1,11 +1,12 @@
 
 
-
 ;;; 23-lsp-mode.el --- LSP settings:
 
 ;;; Commentary:
 ;; 以下でtreesitをインストールしておく
 ;; M-x treesit-install-language-grammar RET python RET
+;;
+;; eglotではflymakeが推奨
 ;; Code:
 
 
@@ -19,7 +20,7 @@
   :init
   (setq eglot-events-buffer-config '(:size 0  :format short)
         eglot-ignored-server-capabilities '(:documentHighlightProvider)
-        eglot-stay-out-of '(flymake)
+        ;; eglot-stay-out-of '(flymake) ;; flymakeをoffにする設定
         eglot-send-changes-idle-time 1.0)
   (defun my/add-directory-to-exec-path-recursively (dir)
     "Recursively add directories and their subdirectories to `exec-path`."
@@ -31,11 +32,21 @@
     (interactive)
     (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
   (my/load-lsp-exec-path)
-  :hook
-  (python-ts-mode . eglot-ensure)
+  :hook (
+	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
+	 (python-ts-mode . eglot-ensure)
+	 ;; (typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode        . eglot-ensure)
+	 ;; (tsx-mode        . eglot-ensure)
+	 (elixir-mode        . eglot-ensure)
+	 )
   :config
+  (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp"))) ;;python用
+  (add-to-list 'eglot-server-programs
+                '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))
+                'append) ;; tsx-ts-mode 
   )
 
 ;; スニペットパッケージのtempelとeglotと統合するパッケージです。
@@ -59,6 +70,7 @@
 
 ;; eglotの拡張
 (use-package eglot-x
+  :ensure nil
   :load-path "site-lisp/eglot-x/"
   :after eglot
   :config
@@ -83,8 +95,9 @@
 ;; emacs-lsp-booster ;; M-x eglot-booster
 (use-package eglot-booster
   :ensure nil
+  :load-path "site-lisp/eglot-booster/"
   :after eglot
-  :config	(eglot-booster-mode))
+  :config (eglot-booster-mode))
 
 
 ;;; lsp-mode: Language Serverのインストール・管理にのみ使用

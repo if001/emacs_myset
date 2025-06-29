@@ -7,30 +7,48 @@
 
 ;;; Code:
 
-
 (use-package treesit
   :ensure nil
   :config
-  (setq treesit-font-lock-level 4))
-
-(use-package tree-sitter
-  :hook (
-	 (typescript-ts-mode . tree-sitter-hl-mode)
-         (tsx-ts-mode . tree-sitter-hl-mode)
-	 )
-  :config
-  (global-tree-sitter-mode))
-
-(use-package tree-sitter-langs
-  :after tree-sitter
-  :config
-  (tree-sitter-require 'tsx)
-  (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-ts-mode . tsx))
+  (setq treesit-font-lock-level 4)
   )
 
 
-(use-package treesit-auto
-  :ensure t
+(use-package tree-sitter
+  :hook ((tsx-ts-mode . tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode))
   :config
-  (setq treesit-auto-install nil) ;; 自動インストール
-  (global-treesit-auto-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist
+               '(tsx-ts-mode . tsx))
+  )
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
+
+(use-package treesit-auto
+  :config
+  ;; (setq treesit-auto-install 'prompt) ;; 自動インストール
+  (setq treesit-auto-install nil)
+  (global-treesit-auto-mode)
+  (treesit-auto-add-to-auto-mode-alist '(typescript tsx))
+  )
+
+
+(setq treesit-language-source-alist
+      '((json "https://github.com/tree-sitter/tree-sitter-json")
+	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	(make "https://github.com/alemuller/tree-sitter-make")
+	(yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
+	(toml "https://github.com/tree-sitter/tree-sitter-toml")
+	(bash "https://github.com/tree-sitter/tree-sitter-bash")
+	(html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
+	(css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        ))
+
+;; (provide "26-treesit.el")
+;;; 26-treesit.el ends here

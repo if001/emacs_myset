@@ -51,12 +51,6 @@
   ;; ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
   ;; ("C-g C-g" . consult-grep) ;; デフォルトの grep コマンドに consult を適用
   ("M-y" . consult-yank-pop) ;; kill-ring の履歴から選択
-  :config
-  ;; 不要なbufferは除く
-  (setq consult-buffer-sources
-	(remove-if (lambda (source)
-                     (member (car source) '(special-buffers help-buffers process-buffers)))
-                   consult-buffer-sources))
   )
 
 ;;; Orderless: 順不同のマッチング
