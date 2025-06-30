@@ -3,6 +3,8 @@
 ## install
 `install.sh`で必要なrepositoryをclone
 
+`brew install ripgrep` grep
+
 `brew install fd` 高速find
 
 `brew install git-delta` git-diffを見やすく
