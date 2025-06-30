@@ -19,6 +19,7 @@
 
 ;; 補完候補に非常に長い候補が存在するとパフォーマンス上の問題がある。その解消用
 (use-package vertico-truncate
+  :ensure nil
   :load-path "site-lisp/vertico-truncate"
   :config
   (vertico-truncate-mode +1))
@@ -47,7 +48,7 @@
   ("C-s" . consult-line)  ;; バッファ内をキーワードで検索
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
-  ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
+  ;; ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
   ;; ("C-g C-g" . consult-grep) ;; デフォルトの grep コマンドに consult を適用
   ("M-y" . consult-yank-pop) ;; kill-ring の履歴から選択
   )
@@ -79,7 +80,7 @@ Example: (consult-ripgrep-args-add-include \"*.org\")"
   (setq completion-category-overrides '((file (styles . (orderless partial-completion)))))
   )
 
-;;; Marginalia: 補完候補に情報表示
+;; Marginalia: 補完候補に情報表示
 (use-package marginalia
   :init
   (marginalia-mode)
@@ -88,6 +89,7 @@ Example: (consult-ripgrep-args-add-include \"*.org\")"
   )
 
 ;;; Embark: コンテキストに応じたアクションフレームワーク
+;; consult-ripgrepした後のmini-bufferの情報を、embark-exportでbufferに送る
 (use-package embark
   :bind
   ;; M-. で選択中のシンボルを consult-line で検索

@@ -12,9 +12,6 @@
 emacsを一度起動してから、use-packageで必要なpackageをinstall後
 
 `M-x nerd-icons-install-fonts required`
-`tab`
-`M-x treesit-install-language-grammar RET python RET`
-
 
 
 ### site-lisp
@@ -38,13 +35,20 @@ https://github.com/emacs-jp/init-loader.git
 `M-x lsp-install-server` でserverのinstall
 
 ### python
-`brew install tree-sitter`
-
+- language server
 [pylsp](https://github.com/python-lsp/python-lsp-server)  
 `brew install python-lsp-server`
 
-以下でtreesitをインストールしておく
+- tree-sitter
 `M-x treesit-install-language-grammar RET python RET`
+
+### typescrip
+- tree-sitter
+`M-x treesit-install-language-grammar typescript`
+`M-x treesit-install-language-grammar tsx`
+
+- language server
+`npm install -g typescript-language-server typescript`
 
 ### go
 gopathをよしなに書き直す
@@ -53,6 +57,16 @@ gopathをよしなに書き直す
 
 `$ go get -u -v github.com/nsf/gocode`
 
+
+### secrets
+`.emacs.d/escrets.el`を作成
+
+```lisp
+;; secrets.el
+(defvar gemini-api-key "XXXXXX")
+
+(message "load secrets")
+```
 
 ### Vertico と Consult
 Consultで、bufferやファイルなどの候補を表示
