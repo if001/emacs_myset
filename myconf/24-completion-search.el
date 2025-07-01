@@ -1,6 +1,6 @@
 
 
-;;; 24-completion-search.el --- use vertico:
+;;; 24-completion-search.el --- use vertico:1
 
 ;;; Commentary:
 ;; 参考: https://joppot.info/posts/2d8a8c1d-6d7f-4cf8-a51a-0f7e5c7e3c80
@@ -14,7 +14,7 @@
   :config
   ;; 必要に応じてカスタマイズ
   (setq vertico-count 15) ;; Show more candidates
-  (setq vertico-cycle t) ;; 候補の循環を有効にする
+  ;; (setq vertico-cycle t) ;; 候補の循環を有効にする
   )
 
 ;; 補完候補に非常に長い候補が存在するとパフォーマンス上の問題がある。その解消用
@@ -51,6 +51,24 @@
   ;; ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
   ;; ("C-g C-g" . consult-grep) ;; デフォルトの grep コマンドに consult を適用
   ("M-y" . consult-yank-pop) ;; kill-ring の履歴から選択
+  )
+
+(with-eval-after-load 'consult
+  (defun consult-ripgrep-args-add-include (pattern)
+    "Temporarily add an --include PATTERN argument to `consult-ripgrep-args'.
+The original value of `consult-ripgrep-args' is restored after the command finishes.
+Example: (consult-ripgrep-args-add-include \"*.org\")"
+    (interactive "sInclude pattern (e.g., *.org): ")
+    (let ((old-args consult-ripgrep-args))
+      (unwind-protect
+          (progn
+            (setq consult-ripgrep-args
+                  (if (stringp consult-ripgrep-args)
+                      (concat consult-ripgrep-args " -g=" pattern)
+                    (append (if (listp consult-ripgrep-args) consult-ripgrep-args (list consult-ripgrep-args))
+                            (list "-g=" pattern))))
+            (consult-ripgrep))
+	(setq consult-ripgrep-args old-args))))
   )
 
 ;;; Orderless: 順不同のマッチング
