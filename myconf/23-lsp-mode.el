@@ -10,6 +10,32 @@
 ;; Code:
 
 
+(defvar my/project-root-file-patterns
+  '((elixir-mode . ("mix.exs"))
+    (python-mode . ("pyproject.toml" "setup.py"))
+    (js-mode     . ("package.json"))
+    (typescript-mode . ("package.json" "tsconfig.json"))
+    (rust-mode   . ("Cargo.toml"))
+    (go-mode     . ("go.mod"))
+    (c-mode      . ("Makefile" "CMakeLists.txt"))
+    (c++-mode    . ("Makefile" "CMakeLists.txt")))
+  )
+(defun my/project-root-by-major-mode (dir)
+  "現在の major-mode に応じてプロジェクトルートを判定する。対応するルートファイルがなければ `.git` を fallback として使用。"
+  (let* ((mode (with-current-buffer (or (window-buffer) (current-buffer))
+                 major-mode))
+         (patterns (or (alist-get mode my/project-root-file-patterns)
+                       '(".git")))
+         (root (cl-some (lambda (file)
+                          (locate-dominating-file dir file))
+                        patterns)))
+    (when root
+      (cons 'transient root))))
+(with-eval-after-load 'project
+  (add-to-list 'project-find-functions #'my/project-root-by-major-mode))
+
+
+
 (use-package eglot
   :bind ( :map eglot-mode-map
           ("C-c r" . eglot-rename)
@@ -39,14 +65,18 @@
          (tsx-ts-mode        . eglot-ensure)
 	 ;; (tsx-mode        . eglot-ensure)
 	 (elixir-mode        . eglot-ensure)
+	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
 	 )
   :config
   (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp"))) ;;python用
   (add-to-list 'eglot-server-programs
-                '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))
-                'append) ;; tsx-ts-mode 
+               '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))) ;; tsx-ts-mode
+  (add-to-list 'eglot-server-programs
+               `(elixir-mode . (,(expand-file-name
+                                  (concat user-emacs-directory
+                                          ".cache/lsp/elixir-ls-v0.28.0/language_server.sh"))))) ;; elixir
   )
 
 ;; スニペットパッケージのtempelとeglotと統合するパッケージです。
