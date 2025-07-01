@@ -1,3 +1,5 @@
+
+
 ;;; 31-org.el --- Org settings:
 
 ;;; Commentary:
@@ -22,9 +24,8 @@
 	  ))
   ;; DONEステータス時の見出しの色を変えない
   (setq org-fontify-done-headline nil)
-  :config
   (setq work-directory "~/prog/org/")
-
+  :config
   (setq listfile (concat work-directory "list.org"))
   (setq chatfile (concat work-directory "chats.org"))
   (setq ideafile (concat work-directory "idea/idea.org"))
@@ -57,26 +58,51 @@
   (setq memofile (yy-mm-file (concat work-directory "memo/") "memo"))
   (setq chatfile (yy-mm-dd-file (concat work-directory "chat/") "chat"))
   (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
-  
+  (setq fefile (yy-mm-file (concat work-directory "fe/") "fe"))
+  (setq datetreefile (yy-mm-file (concat work-directory "datetree/") "datetree"))
   (setq org-capture-templates
 	'(
 	  ;; タスク
 	  ("t" "task" entry (file+headline taskfile "Task")
-	   "** TODO %? \n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n %i\n %a\n"  :empty-lines 1)
+	   "** TODO %? \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: task\n  :END:\n %i\n %a\n"  :empty-lines 1)
 	  ("c" "chats" entry (file+headline chatfile "Chats")
-	   "** %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n"  :empty-lines 1)
-          ;; ("i" "Idea" entry (file+olp+datetree ideafile)
-          ;;  "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n  %a\n")
+	   "** %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: chat\n  :END:\n  %i\n"  :empty-lines 1)
 	  ("l" "あとで読む" entry (file+headline laterfile "あとで読む")
-           "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n  %a\n"  :empty-lines 1)
+           "* %? :later: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: later\n  :END:\n  %i\n  %a\n"  :empty-lines 1)
 	  ("a" "Any Idea" entry (file+headline ideafile)
-           "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Any \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
+           "* %? :any: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Any \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
 	  ("e" "Tec Idea" entry (file techfile)
-           "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Tec \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
-	  ("m" "Memo" entry (file+headline memofile "Memo")
-           "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  %i\n  %a\n" :empty-lines 1)
+           "* %? :tech: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Tec \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
+	  ;; ("m" "Memo" entry (file+headline memofile "Memo")
+          ;;  "* %? :memo: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: memo\n  :END:\n  %i\n  %a\n" :empty-lines 1)
+	  ("m" "Memo" entry (file+olp+datetree datetreefile)
+           "** %<%m-%d(%a) %H:%M> :datetree:memo: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: datetree\n  :END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
+	  ("f" "FE memo" entry (file fefile)
+           "* %? :FE: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: FE \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
 	  )
 	)
+
+  ;; agendaの設定
+  (defun my-list-subdirectories (dir)
+    "指定したディレクトリ DIR の直下にあるディレクトリのリストを返します。"   
+    (let ((files (directory-files dir t nil))) ;; t で絶対パス、nil でソート
+      (cl-loop for file in files
+               when (and (file-directory-p file)
+			 (not (string-equal (file-name-nondirectory file) "."))
+			 (not (string-equal (file-name-nondirectory file) "..")))
+               collect (concat file "/")
+	       )
+      ))
+  ;;(setq org-agenda-files list (my-list-subdirectories work-directory))
+  (setq org-agenda-files '("~/prog/org/memo/"))
+  ;; (message org-agenda-files)
+  (setq org-agenda-custom-commands
+	'(
+	  ("s" "List entries with memo tag/property" tags-todo "+memo")
+	  )
+	)
+  
+  
   )
 
 ;; アンダースコアを入力しても下付き文字にならないようにする
