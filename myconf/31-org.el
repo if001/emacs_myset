@@ -53,38 +53,44 @@
       ;; ファイル名を生成
       (expand-file-name (format "%s-%s-%s-%s.org" year month day file-prefix) full-dir)))
   
-  (setq taskfile (yy-mm-file (concat work-directory "tasks/") "task"))
-  (setq laterfile (yy-mm-file (concat work-directory "later/") "later"))
-  (setq memofile (yy-mm-file (concat work-directory "memo/") "memo"))
+  ;; (setq taskfile (yy-mm-file (concat work-directory "tasks/") "task"))
+  ;; (setq laterfile (yy-mm-file (concat work-directory "later/") "later"))
+  ;; (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
+
+  (setq memofile (yy-mm-dd-file (concat work-directory "memo/") "memo"))
   (setq chatfile (yy-mm-dd-file (concat work-directory "chat/") "chat"))
-  (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
   (setq fefile (yy-mm-file (concat work-directory "fe/") "fe"))
-  (setq datetreefile (yy-mm-file (concat work-directory "datetree/") "datetree"))
+ 
+  
   (setq org-capture-templates
 	'(
 	  ;; タスク
-	  ("t" "task" entry (file+headline taskfile "Task")
-	   "** TODO %? \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: task\n  :END:\n %i\n %a\n"  :empty-lines 1)
-	  ("c" "chats" entry (file+headline chatfile "Chats")
-	   "** %?\n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: chat\n  :END:\n  %i\n"  :empty-lines 1)
-	  ("l" "あとで読む" entry (file+headline laterfile "あとで読む")
-           "* %? :later: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: later\n  :END:\n  %i\n  %a\n"  :empty-lines 1)
-	  ("a" "Any Idea" entry (file+headline ideafile)
-           "* %? :any: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Any \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
-	  ("e" "Tec Idea" entry (file techfile)
-           "* %? :tech: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: Tec \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
+	  ("t" "task" entry (file memofile)
+	   "** TODO %? :todo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: task \n:END:\n%i\n%a\n"  :empty-lines 1)
+	  ("l" "あとで読む" entry (file memofile)
+           "** %? :later: \n:PROPERTIES:\n:CREATED: %U\n:TAG: later \n:END:\n%i\n%a\n"  :empty-lines 1)
+	  ("a" "Any Idea" entry (file memofile)
+           "** %? :any: \n:PROPERTIES:\n:CREATED: %U\n:TAG: any \n:END:\n%i\n%a\n"  :empty-lines 1)
+	  ("e" "Tech Idea" entry (file memofile)
+           "** %? :tech: \n:PROPERTIES:\n:CREATED: %U\n:TAG: tech \n:END:\n%i\n%a\n"  :empty-lines 1)
 	  ;; ("m" "Memo" entry (file+headline memofile "Memo")
           ;;  "* %? :memo: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: memo\n  :END:\n  %i\n  %a\n" :empty-lines 1)
-	  ("m" "Memo" entry (file+olp+datetree datetreefile)
-           "** %<%m-%d(%a) %H:%M> :datetree:memo: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: datetree\n  :END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
+	  ("m" "Memo" entry (file memofile)
+           "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+
+	  ;; ("m" "Memo" entry (file+olp+datetree datetreefile)
+          ;;  "** %<%m-%d(%a) %H:%M>\n#+filetags: :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: :memo: \n:END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
+	  
+	  ("c" "chats" entry (file+headline chatfile "Chats")
+	   "** %? :chat: \n\n:PROPERTIES:\n:CREATED: %U\n:TAG: chat\n:END:\n%i\n" :empty-lines 1)
 	  ("f" "FE memo" entry (file fefile)
-           "* %? :FE: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: FE \n  :END:\n  %i\n  %a\n"  :empty-lines 1)
+           "* %? :fe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: fe \n:END:\n%i\n%a\n"  :empty-lines 1)
 	  )
 	)
 
   ;; agendaの設定
   (defun my-list-subdirectories (dir)
-    "指定したディレクトリ DIR の直下にあるディレクトリのリストを返します。"   
+    "指定したディレクトリ DIR の直下にあるディレクトリのリストを返します。"
     (let ((files (directory-files dir t nil))) ;; t で絶対パス、nil でソート
       (cl-loop for file in files
                when (and (file-directory-p file)
@@ -93,17 +99,22 @@
                collect (concat file "/")
 	       )
       ))
-  ;;(setq org-agenda-files list (my-list-subdirectories work-directory))
-  (setq org-agenda-files '("~/prog/org/memo/"))
+  (setq org-agenda-files (my-list-subdirectories work-directory))
+  ;;(setq org-agenda-files '("~/prog/org/memo/"))
   ;; (message org-agenda-files)
   (setq org-agenda-custom-commands
 	'(
-	  ("s" "List entries with memo tag/property" tags-todo "+memo")
+	  ("s" "List entries with memo tag/property" tags "memo")
+	  ("p" "Entries with property TAG=memo" tags "+TAG=\"tech\"")
 	  )
 	)
   
   
   )
+
+;; orgの検索用
+(use-package org-ql
+  :after org)
 
 ;; アンダースコアを入力しても下付き文字にならないようにする
 (setq org-use-sub-superscripts '{}
