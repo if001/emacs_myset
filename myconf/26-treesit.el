@@ -48,6 +48,8 @@
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (python "https://github.com/tree-sitter/tree-sitter-python")
+	(elixir . ("https://github.com/elixir-lang/tree-sitter-elixir" "v0.3.4"))
+	(heex . ("https://github.com/phoenixframework/tree-sitter-heex" "v0.8.0"))
         ))
 
 ;; (provide "26-treesit.el")
