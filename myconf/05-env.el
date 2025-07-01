@@ -60,3 +60,8 @@
 (use-package which-key
   :config
   (which-key-mode +1))
+
+;; macのpinchを無効化
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "<C-wheel-up>") 'ignore)
+(global-set-key (kbd "<C-wheel-down>") 'ignore)
