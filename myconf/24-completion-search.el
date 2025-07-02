@@ -1,6 +1,4 @@
-
-
-;;; 24-completion-search.el --- use vertico:1
+;;; 24-completion-search.el
 
 ;;; Commentary:
 ;; 参考: https://joppot.info/posts/2d8a8c1d-6d7f-4cf8-a51a-0f7e5c7e3c80
@@ -54,22 +52,48 @@
   )
 
 (with-eval-after-load 'consult
-  (defun consult-ripgrep-args-add-include (pattern)
-    "Temporarily add an --include PATTERN argument to `consult-ripgrep-args'.
-The original value of `consult-ripgrep-args' is restored after the command finishes.
-Example: (consult-ripgrep-args-add-include \"*.org\")"
-    (interactive "sInclude pattern (e.g., *.org): ")
-    (let ((old-args consult-ripgrep-args))
-      (unwind-protect
-          (progn
-            (setq consult-ripgrep-args
-                  (if (stringp consult-ripgrep-args)
-                      (concat consult-ripgrep-args " -g=" pattern)
-                    (append (if (listp consult-ripgrep-args) consult-ripgrep-args (list consult-ripgrep-args))
-                            (list "-g=" pattern))))
-            (consult-ripgrep))
-	(setq consult-ripgrep-args old-args))))
+  ;; consult-ripgrep word -- -g="*.el" でinclude
+  ;; consult-ripgrep word -- -g="!*.el" でexclude
+;;   (defun consult-ripgrep-args-add-include (pattern)
+;;     "Temporarily add an --include PATTERN argument to `consult-ripgrep-args'.
+;; The original value of `consult-ripgrep-args' is restored after the command finishes.
+;; Example: (consult-ripgrep-args-add-include \"*.org\")"
+;;     (interactive "sInclude pattern (e.g., *.org): ")
+;;     (let ((old-args consult-ripgrep-args))
+;;       (unwind-protect
+;;           (progn
+;;             (setq consult-ripgrep-args
+;;                   (if (stringp consult-ripgrep-args)
+;;                       (concat consult-ripgrep-args " -g=" pattern)
+;;                     (append (if (listp consult-ripgrep-args) consult-ripgrep-args (list consult-ripgrep-args))
+;;                             (list "-g=" pattern))))
+;;             (consult-ripgrep))
+  ;; 	(setq consult-ripgrep-args old-args))))
+
+(defun my/consult-ripgrep-in-exported-filelist ()
+  "Run `consult-ripgrep` on the file list in current `embark-export` buffer."
+  (interactive)
+  (let* ((file-list
+          (seq-uniq
+           (delq nil
+                 (mapcar (lambda (line)
+                           (when (string-match "^\\(.*?\\):[0-9]+:" line)
+                             (match-string 1 line)))
+                         (split-string (buffer-string) "\n" t)))))
+         (existing-files (seq-filter #'file-exists-p file-list)))
+    (if (null existing-files)
+        (message "有効なファイルが見つかりませんでした。")
+      (consult-ripgrep existing-files)))
   )
+)
+
+;; --------------------- ;;
+;; 2段階検索
+(use-package consult-ripgrep-narrowed
+  :ensure nil
+  :after consult
+  :load-path "site-lisp/consult-ripgrep-narrowed"
+  :commands (consult-ripgrep-narrowed))
 
 ;;; Orderless: 順不同のマッチング
 (use-package orderless
