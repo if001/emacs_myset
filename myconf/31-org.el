@@ -60,6 +60,7 @@
   (setq memofile (yy-mm-dd-file (concat work-directory "memo/") "memo"))
   (setq chatfile (yy-mm-dd-file (concat work-directory "chat/") "chat"))
   (setq fefile (yy-mm-file (concat work-directory "fe/") "fe"))
+  (setq matsuo-lab-file (yy-mm-dd-file (concat work-directory "matsuo-lab-llm-compe/") "matsuo-lab-llm-compe"))
  
   
   (setq org-capture-templates
@@ -79,6 +80,9 @@
            "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  ("e" "emacs" entry (file memofile)
            "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+	  ("s" "matsuo-lab-llm-compe" entry (file matsuo-lab-file)
+           "** %? :llm_compe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: llm_compe \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+
 	  ;; ("m" "Memo" entry (file+olp+datetree datetreefile)
           ;;  "** %<%m-%d(%a) %H:%M>\n#+filetags: :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: :memo: \n:END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  
