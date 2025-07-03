@@ -69,22 +69,6 @@
 ;;                             (list "-g=" pattern))))
 ;;             (consult-ripgrep))
   ;; 	(setq consult-ripgrep-args old-args))))
-
-(defun my/consult-ripgrep-in-exported-filelist ()
-  "Run `consult-ripgrep` on the file list in current `embark-export` buffer."
-  (interactive)
-  (let* ((file-list
-          (seq-uniq
-           (delq nil
-                 (mapcar (lambda (line)
-                           (when (string-match "^\\(.*?\\):[0-9]+:" line)
-                             (match-string 1 line)))
-                         (split-string (buffer-string) "\n" t)))))
-         (existing-files (seq-filter #'file-exists-p file-list)))
-    (if (null existing-files)
-        (message "有効なファイルが見つかりませんでした。")
-      (consult-ripgrep existing-files)))
-  )
 )
 
 ;; --------------------- ;;
@@ -94,6 +78,13 @@
   :after consult
   :load-path "site-lisp/consult-ripgrep-narrowed"
   :commands (consult-ripgrep-narrowed))
+
+;; embark-exportからの検索
+(use-package consult-ripgrep-in-exported-filelist
+  :ensure nil
+  :after consult
+  :load-path "site-lisp/consult-ripgrep-in-exported-filelist"
+  :commands (consult-ripgrep-in-exported-filelist))
 
 ;;; Orderless: 順不同のマッチング
 (use-package orderless
