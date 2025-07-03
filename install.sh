@@ -10,4 +10,8 @@ git clone https://github.com/jdtsmith/vertico-truncate.git
 
 git clone https://github.com/joaotavora/breadcrumb.git
 
-git clone git clone https://github.com/jdtsmith/eglot-booster.git
+git clone https://github.com/jdtsmith/eglot-booster.git
+
+git clone git@github.com:if001/consult-ripgrep-in-exported-filelist.git
+
+git clone git@github.com:if001/consult-ripgrep-narrowed.git
