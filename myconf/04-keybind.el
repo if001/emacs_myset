@@ -49,6 +49,10 @@
  )
 
 
+;;reload
+;; use-packageの場合、M-x eval-defunを使う
+(global-set-key [f12] 'eval-buffer)
+ 
 ;; (if (string-match "darwin" (system-type))
 ;;        (setq ns-command-modifier (quote meta))
 ;;  (setq ns-alternate-modifier (quote super))
