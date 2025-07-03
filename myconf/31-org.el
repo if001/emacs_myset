@@ -1,5 +1,6 @@
 
 
+
 ;;; 31-org.el --- Org settings:
 
 ;;; Commentary:
@@ -80,12 +81,14 @@
            "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  ("e" "emacs" entry (file memofile)
            "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
-	  ("s" "matsuo-lab-llm-compe" entry (file matsuo-lab-file)
-           "** %? :llm_compe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: llm_compe \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+	  ("p" "Pepar" entry (file memofile)
+           "** %? :pepar: \n:PROPERTIES:\n:CREATED: %U\n:TAG: pepar \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+
 
 	  ;; ("m" "Memo" entry (file+olp+datetree datetreefile)
           ;;  "** %<%m-%d(%a) %H:%M>\n#+filetags: :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: :memo: \n:END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
-	  
+	  ("s" "matsuo-lab-llm-compe" entry (file matsuo-lab-file)
+           "** %? :llm_compe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: llm_compe \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)	  
 	  ("c" "chats" entry (file+headline chatfile "Chats")
 	   "** %? :chat: \n\n:PROPERTIES:\n:CREATED: %U\n:TAG: chat\n:END:\n%i\n" :empty-lines 1)
 	  ("f" "FE memo" entry (file fefile)
@@ -118,8 +121,54 @@
   )
 
 ;; orgの検索用
+(defun my/org-date-string (days-offset)
+  "Return date string like '2025-07-01' offset by DAYS-OFFSET from today."
+  (format-time-string "%Y-%m-%d"
+                      (time-add (current-time)
+                                (days-to-time days-offset)))
+  )
 (use-package org-ql
-  :after org)
+  :after org
+  :config
+  (setq org-ql-views
+      '(
+	("CREATED: 今日"
+         :buffers-files org-agenda-files
+         :query (and (property>= "CREATED" ,(my/org-date-string 0))
+                     (property<  "CREATED" ,(my/org-date-string 1)))
+         :title "今日作成されたノート"
+	 :narrow nil
+	 )
+        ("CREATED: 過去7日以内"
+         :buffers-files org-agenda-files
+         :query (and (property>= "CREATED" ,(my/org-date-string -7))
+                     (property<= "CREATED" ,(my/org-date-string 0)))
+         :title "過去7日以内に作成されたノート"
+	 :narrow nil
+	 )
+        ("タグ: メモ"
+         :buffers-files org-agenda-files
+         :query (tags "memo")
+         :title "メモタグがついたノート"
+	 :narrow nil
+	 )
+	("今日のタスク"
+         :buffers-files org-agenda-files
+         :query (and (todo)
+                     (ts-active :on today)) ; 今日の日付を持つもの
+         :title "今日のタスク一覧"
+         :sort (ts priority todo)
+	 :narrow nil
+	 )
+        ("今週の予定"
+         :buffers-files org-agenda-files
+         :query (ts-active :from today :to 7)
+         :title "今週の予定"
+	 :narrow nil
+	 ) ;; 今日から7日以内
+	)
+      )
+  )
 
 ;; アンダースコアを入力しても下付き文字にならないようにする
 (setq org-use-sub-superscripts '{}
