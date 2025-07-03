@@ -1,6 +1,3 @@
-
-
-
 ;;; 31-org.el --- Org settings:
 
 ;;; Commentary:
@@ -122,45 +119,79 @@
                       (time-add (current-time)
                                 (days-to-time days-offset)))
   )
+
+;; プロパティから時刻文字列を取得し、Emacsの内部時刻形式に変換
+(defun my/org-parse-created-timestamp ()
+  "Parse CREATED property as a time value, or nil if not present or invalid."
+  (let ((ts (org-entry-get nil "CREATED")))
+    (when ts
+      (condition-case nil
+          (encode-time (parse-time-string ts))
+        (error nil)))))  ;; エラー時は nil を返す
+
+;; 指定した日数前より後かどうかをチェック
+(defun my/org-created-after-days-ago-p (days)
+  "Return non-nil if the CREATED property is within the last DAYS days."
+  (let ((cutoff (time-subtract (current-time) (days-to-time days))))
+    (let ((created-time (my/org-parse-created-timestamp)))
+      (and created-time
+           (time-less-p cutoff created-time)))))
+
+;; 今日作成されたかチェック
+(defun my/org-created-today-p ()
+  "Return non-nil if CREATED property is today."
+  (let* ((created-time (my/org-parse-created-timestamp))
+         (now (current-time)))
+    (when created-time
+      (let ((created-date (decode-time created-time))
+            (now-date (decode-time now)))
+        (and (= (nth 3 created-date) (nth 3 now-date))   ;; day
+             (= (nth 4 created-date) (nth 4 now-date))   ;; month
+             (= (nth 5 created-date) (nth 5 now-date))))))) ;; year
+
 (use-package org-ql
   :after org
   :config
   (setq org-ql-views
-      '(
-	("CREATED: 今日"
-         :buffers-files org-agenda-files
-         :query (and (property>= "CREATED" ,(my/org-date-string 0))
-                     (property<  "CREATED" ,(my/org-date-string 1)))
-         :title "今日作成されたノート"
-	 :narrow nil
+	'(
+	  ("🕓 今日作成したメモ"
+           :buffers-files org-agenda-files
+	   :query (my/org-created-today-p)
+           :title "🕓 今日作成したメモ"
+	   :files org-agenda-files
+	   )
+	  ("🦑 昨日作成したメモ"
+           :buffers-files org-agenda-files
+	   :query (my/org-created-after-days-ago-p 1)
+           :title "🦑 昨日作成したメモ"
+	   :files org-agenda-files
+	   )
+	  ("📅 過去7日間に作成されたエントリ"
+	   :buffers-files org-agenda-files
+           :title "📅 過去7日間に作成されたエントリ"
+	   :query (my/org-created-after-days-ago-p 7)
+           :files org-agenda-files
+	   )
+          ("📝 メモ"
+           :buffers-files org-agenda-files
+           :query (tags "memo")
+           :title "📝 メモ"
+	   :narrow nil
 	 )
-        ("CREATED: 過去7日以内"
-         :buffers-files org-agenda-files
-         :query (and (property>= "CREATED" ,(my/org-date-string -7))
-                     (property<= "CREATED" ,(my/org-date-string 0)))
-         :title "過去7日以内に作成されたノート"
-	 :narrow nil
-	 )
-        ("タグ: メモ"
-         :buffers-files org-agenda-files
-         :query (tags "memo")
-         :title "メモタグがついたノート"
-	 :narrow nil
-	 )
-	("今日のタスク"
-         :buffers-files org-agenda-files
-         :query (and (todo)
-                     (ts-active :on today)) ; 今日の日付を持つもの
-         :title "今日のタスク一覧"
-         :sort (ts priority todo)
-	 :narrow nil
-	 )
-        ("今週の予定"
-         :buffers-files org-agenda-files
-         :query (ts-active :from today :to 7)
-         :title "今週の予定"
-	 :narrow nil
-	 ) ;; 今日から7日以内
+	;; ("今日のタスク"
+        ;;  :buffers-files org-agenda-files
+        ;;  :query (and (todo)
+        ;;              (ts-active :on today)) ; 今日の日付を持つもの
+        ;;  :title "今日のタスク一覧"
+        ;;  :sort (ts priority todo)
+	;;  :narrow nil
+	;;  )
+        ;; ("今週の予定"
+        ;;  :buffers-files org-agenda-files
+        ;;  :query (ts-active :from today :to 7)
+        ;;  :title "今週の予定"
+	;;  :narrow nil
+	;;  ) ;; 今日から7日以内
 	)
       )
   )
