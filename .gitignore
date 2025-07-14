@@ -29,3 +29,5 @@ projects
 myconf_def/
 init.el.def
 
+secrets.el
+myconf/*.elc

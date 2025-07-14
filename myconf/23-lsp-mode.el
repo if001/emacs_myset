@@ -1,12 +1,40 @@
 
 
-
 ;;; 23-lsp-mode.el --- LSP settings:
 
 ;;; Commentary:
 ;; 以下でtreesitをインストールしておく
 ;; M-x treesit-install-language-grammar RET python RET
+;;
+;; eglotではflymakeが推奨
 ;; Code:
+
+
+(defvar my/project-root-file-patterns
+  '((elixir-mode . ("mix.exs"))
+    (python-mode . ("pyproject.toml" "setup.py"))
+    (python-ts-mode . ("pyproject.toml" "setup.py"))
+    (js-mode     . ("package.json"))
+    (typescript-mode . ("package.json" "tsconfig.json"))
+    (rust-mode   . ("Cargo.toml"))
+    (go-mode     . ("go.mod"))
+    (c-mode      . ("Makefile" "CMakeLists.txt"))
+    (c++-mode    . ("Makefile" "CMakeLists.txt")))
+  )
+(defun my/project-root-by-major-mode (dir)
+  "現在の major-mode に応じてプロジェクトルートを判定する。対応するルートファイルがなければ `.git` を fallback として使用。"
+  (let* ((mode (with-current-buffer (or (window-buffer) (current-buffer))
+                 major-mode))
+         (patterns (or (alist-get mode my/project-root-file-patterns)
+                       '(".git")))
+         (root (cl-some (lambda (file)
+                          (locate-dominating-file dir file))
+                        patterns)))
+    (when root
+      (cons 'transient root))))
+(with-eval-after-load 'project
+  (add-to-list 'project-find-functions #'my/project-root-by-major-mode))
+
 
 
 (use-package eglot
@@ -19,23 +47,38 @@
   :init
   (setq eglot-events-buffer-config '(:size 0  :format short)
         eglot-ignored-server-capabilities '(:documentHighlightProvider)
-        eglot-stay-out-of '(flymake)
+        ;; eglot-stay-out-of '(flymake) ;; flymakeをoffにする設定
         eglot-send-changes-idle-time 1.0)
-  (defun my/add-directory-to-exec-path-recursively (dir)
-    "Recursively add directories and their subdirectories to `exec-path`."
-    (add-to-list 'exec-path dir)
-    (dolist (entry (directory-files dir t "^[^.]" t))
-      (when (file-directory-p entry)
-        (my/add-directory-to-exec-path-recursively entry))))
-  (defun my/load-lsp-exec-path ()
-    (interactive)
-    (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
-  (my/load-lsp-exec-path)
-  :hook
-  (python-ts-mode . eglot-ensure)
+  ;; (defun my/add-directory-to-exec-path-recursively (dir)
+  ;;   "Recursively add directories and their subdirectories to `exec-path`."
+  ;;   (add-to-list 'exec-path dir)
+  ;;   (dolist (entry (directory-files dir t "^[^.]" t))
+  ;;     (when (file-directory-p entry)
+  ;;       (my/add-directory-to-exec-path-recursively entry))))
+  ;; (defun my/load-lsp-exec-path ()
+  ;;   (interactive)
+  ;;   (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
+  ;; (my/load-lsp-exec-path)
+  :hook (
+	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
+	 ;; (python-ts-mode . eglot-ensure)
+	 ;; (typescript-ts-mode . eglot-ensure)
+         ;; (tsx-ts-mode        . eglot-ensure)
+	 ;; (tsx-mode        . eglot-ensure)
+	 ;; (elixir-mode        . eglot-ensure)
+	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
+	 )
   :config
+  (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
-  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp"))) ;;python用
+  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "-v"))) ;;python用
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
+  (add-to-list 'eglot-server-programs
+               '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))) ;; tsx-ts-mode
+  (add-to-list 'eglot-server-programs
+               `(elixir-mode . (,(expand-file-name
+                                  (concat user-emacs-directory
+                                          ".cache/lsp/elixir-ls-v0.28.0/language_server.sh"))))) ;; elixir
   )
 
 ;; スニペットパッケージのtempelとeglotと統合するパッケージです。
@@ -59,6 +102,7 @@
 
 ;; eglotの拡張
 (use-package eglot-x
+  :ensure nil
   :load-path "site-lisp/eglot-x/"
   :after eglot
   :config
@@ -78,6 +122,14 @@
   :config
   (advice-add #'eglot-signature-eldoc-function
               :override #'eglot-signature-eldoc-talkative))
+
+
+;; emacs-lsp-booster ;; M-x eglot-booster
+(use-package eglot-booster
+  :ensure nil
+  :load-path "site-lisp/eglot-booster/"
+  :after eglot
+  :config (eglot-booster-mode))
 
 
 ;;; lsp-mode: Language Serverのインストール・管理にのみ使用

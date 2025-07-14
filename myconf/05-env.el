@@ -53,8 +53,15 @@
 ;; (unless IS-LINUX
 ;;   (setq command-line-x-option-alist nil))
 
+;; paste時、regionを削除してpasteする
+(delete-selection-mode 1)
 
 ;; キーバインドを可視化してくれます。
 (use-package which-key
   :config
   (which-key-mode +1))
+
+;; macのpinchを無効化
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "<C-wheel-up>") 'ignore)
+(global-set-key (kbd "<C-wheel-down>") 'ignore)

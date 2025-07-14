@@ -5,10 +5,12 @@
 
 ;; Code:
 
-;; python-ts-mode の設定
-(use-package python-ts-mode
+;; python-mode の設定
+(use-package python-mode
+  :defer t
   :ensure nil
   :hook
+  (python-mode . python-ts-mode)
   (python-ts-mode . eglot-ensure)
   :config
   (treesit-install-language-grammar 'python) ;; Python用のTree-sitter文法をインストール

@@ -23,9 +23,7 @@
 (setq default-frame-alist initial-frame-alist)
 
 (custom-set-variables
- '(blink-cursor-mode nil) ;;カーソルの点滅をやめる
- '(inhibit-startup-screen t);;起動時にGNU Emacs を表示しない
- '(show-paren-mode t));;対応するカッコを強調
+ '(blink-cursor-mode nil)) ;;カーソルの点滅をやめる
 
 
 ;; スクロールバー非表示
@@ -161,16 +159,21 @@
   )
 
 ;; indetにハイライトつける
-(use-package highlight-indent-guides
-  ;; :init
-  :diminish
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :custom
-  (highlight-indent-guides-auto-enabled t)
-  (highlight-indent-guides-responsive t)
-  ;; (highlight-indent-guides-method 'character) ;; column
- (highlight-indent-guides-method 'bitmap) ;; column   
-  )
+;; (use-package highlight-indent-guides
+;;   :ensure nil
+;;   :diminish
+;;   :hook (prog-mode . highlight-indent-guides-mode)
+;;   :custom
+;;   (highlight-indent-guides-auto-enabled t)
+;;   (highlight-indent-guides-responsive t)
+;;   ;; (highlight-indent-guides-method 'character) ;; column
+;;   (highlight-indent-guides-method 'bitmap) ;; column   
+;;   )
+
+
+;; 
+(setq blink-matching-paren nil)
+
 
 (message "loaded 01-flame.el")
 ;;-------------------------------------------------------------------------;;

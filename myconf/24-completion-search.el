@@ -1,6 +1,4 @@
-
-
-;;; 24-completion-search.el --- use vertico:
+;;; 24-completion-search.el
 
 ;;; Commentary:
 ;; 参考: https://joppot.info/posts/2d8a8c1d-6d7f-4cf8-a51a-0f7e5c7e3c80
@@ -14,11 +12,12 @@
   :config
   ;; 必要に応じてカスタマイズ
   (setq vertico-count 15) ;; Show more candidates
-  (setq vertico-cycle t) ;; 候補の循環を有効にする
+  ;; (setq vertico-cycle t) ;; 候補の循環を有効にする
   )
 
 ;; 補完候補に非常に長い候補が存在するとパフォーマンス上の問題がある。その解消用
 (use-package vertico-truncate
+  :ensure nil
   :load-path "site-lisp/vertico-truncate"
   :config
   (vertico-truncate-mode +1))
@@ -47,10 +46,45 @@
   ("C-s" . consult-line)  ;; バッファ内をキーワードで検索
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
-  ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
+  ;; ("C-r" . consult-ripgrep) ;; ripgrep がインストールされていれば
   ;; ("C-g C-g" . consult-grep) ;; デフォルトの grep コマンドに consult を適用
   ("M-y" . consult-yank-pop) ;; kill-ring の履歴から選択
   )
+
+(with-eval-after-load 'consult
+  ;; consult-ripgrep word -- -g="*.el" でinclude
+  ;; consult-ripgrep word -- -g="!*.el" でexclude
+;;   (defun consult-ripgrep-args-add-include (pattern)
+;;     "Temporarily add an --include PATTERN argument to `consult-ripgrep-args'.
+;; The original value of `consult-ripgrep-args' is restored after the command finishes.
+;; Example: (consult-ripgrep-args-add-include \"*.org\")"
+;;     (interactive "sInclude pattern (e.g., *.org): ")
+;;     (let ((old-args consult-ripgrep-args))
+;;       (unwind-protect
+;;           (progn
+;;             (setq consult-ripgrep-args
+;;                   (if (stringp consult-ripgrep-args)
+;;                       (concat consult-ripgrep-args " -g=" pattern)
+;;                     (append (if (listp consult-ripgrep-args) consult-ripgrep-args (list consult-ripgrep-args))
+;;                             (list "-g=" pattern))))
+;;             (consult-ripgrep))
+  ;; 	(setq consult-ripgrep-args old-args))))
+)
+
+;; --------------------- ;;
+;; 2段階検索
+(use-package consult-ripgrep-narrowed
+  :ensure nil
+  :after consult
+  :load-path "site-lisp/consult-ripgrep-narrowed"
+  :commands (consult-ripgrep-narrowed))
+
+;; embark-exportからの検索
+(use-package consult-ripgrep-in-exported-filelist
+  :ensure nil
+  :after consult
+  :load-path "site-lisp/consult-ripgrep-in-exported-filelist"
+  :commands (consult-ripgrep-in-exported-filelist))
 
 ;;; Orderless: 順不同のマッチング
 (use-package orderless
@@ -61,7 +95,7 @@
   (setq completion-category-overrides '((file (styles . (orderless partial-completion)))))
   )
 
-;;; Marginalia: 補完候補に情報表示
+;; Marginalia: 補完候補に情報表示
 (use-package marginalia
   :init
   (marginalia-mode)
@@ -70,6 +104,7 @@
   )
 
 ;;; Embark: コンテキストに応じたアクションフレームワーク
+;; consult-ripgrepした後のmini-bufferの情報を、embark-exportでbufferに送る
 (use-package embark
   :bind
   ;; M-. で選択中のシンボルを consult-line で検索
