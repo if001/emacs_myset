@@ -47,25 +47,26 @@
   (setq dashboard-display-icons-p t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-center-content t)
-  :config  
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-agenda-release-buffers t)
+  :config
   (dashboard-setup-startup-hook)
   (add-to-list 'dashboard-item-generators
-               '(error-status . (lambda (list-size)
+               '(
+		 error-status . (lambda (list-size)
                                   (when (not (equal (init-loader-error-log) ""))
 				    (dashboard-insert-heading "ERROR")
-				    (insert "\n初期化時にエラーが発生しました。\n*init-log* を確認してください")))))
+				    (insert "\n初期化時にエラーが発生しました。\n*init-log* を確認してください")))
+		 )
+	       )
   (setq dashboard-items '(
 			  (recents   . 5)
 			  (projects   . 5)
-			  (agenda    . 5)
-			  (bookmarks . 5)
 			  (error-status . nil)
-			  ))  
+			  ))
   (setq dashboard-heading-icons '((recents   . "nf-oct-history")
 				  (projects  . "nf-oct-rocket")
-				  (agenda    . "nf-oct-calendar")
-                                  (bookmarks . "nf-oct-bookmark")
-                                  (registers . "nf-oct-database")
 				  (error-status . "nf-oct-bug")
 				  ))
   )
+

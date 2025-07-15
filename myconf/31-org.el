@@ -8,6 +8,7 @@
 
 ;; Code:
 (use-package org
+  :defer t
   :init
   (setq org-return-follows-link t  ; Returnキーでリンク先を開く
         org-mouse-1-follows-link t ; マウスクリックでリンク先を開く
@@ -23,11 +24,6 @@
   ;; DONEステータス時の見出しの色を変えない
   (setq org-fontify-done-headline nil)
   (setq work-directory "~/prog/org/")
-  :config
-  (setq listfile (concat work-directory "list.org"))
-  (setq chatfile (concat work-directory "chats.org"))
-  (setq ideafile (concat work-directory "idea/idea.org"))
-  
   (defun yy-mm-file (base-dir file-prefix)
     "Generate a file name like 'YYYY-MM-PREFIX.org' in BASE-DIR."
     (let* ((now (current-time))
@@ -50,7 +46,13 @@
 	(make-directory full-dir t))
       ;; ファイル名を生成
       (expand-file-name (format "%s-%s-%s-%s.org" year month day file-prefix) full-dir)))
+
   
+  :config
+  (setq listfile (concat work-directory "list.org"))
+  (setq chatfile (concat work-directory "chats.org"))
+  (setq ideafile (concat work-directory "idea/idea.org"))
+   
   ;; (setq taskfile (yy-mm-file (concat work-directory "tasks/") "task"))
   ;; (setq laterfile (yy-mm-file (concat work-directory "later/") "later"))
   ;; (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
@@ -117,44 +119,67 @@
   
   )
 
-;; orgの検索用
-(defun my/org-date-string (days-offset)
-  "Return date string like '2025-07-01' offset by DAYS-OFFSET from today."
-  (format-time-string "%Y-%m-%d"
-                      (time-add (current-time)
-                                (days-to-time days-offset)))
+
+(with-eval-after-load 'org
+  ;; orgの検索用
+  (defun my/org-date-string (days-offset)
+    "Return date string like '2025-07-01' offset by DAYS-OFFSET from today."
+    (format-time-string "%Y-%m-%d"
+			(time-add (current-time)
+                                  (days-to-time days-offset)))
+    )
+
+  ;; プロパティから時刻文字列を取得し、Emacsの内部時刻形式に変換
+  (defun my/org-parse-created-timestamp ()
+    "Parse CREATED property as a time value, or nil if not present or invalid."
+    (let ((ts (org-entry-get nil "CREATED")))
+      (when ts
+	(condition-case nil
+            (encode-time (parse-time-string ts))
+          (error nil)))))  ;; エラー時は nil を返す
+
+  ;; 指定した日数前より後かどうかをチェック
+  (defun my/org-created-after-days-ago-p (days)
+    "Return non-nil if the CREATED property is within the last DAYS days."
+    (let ((cutoff (time-subtract (current-time) (days-to-time days))))
+      (let ((created-time (my/org-parse-created-timestamp)))
+	(and created-time
+             (time-less-p cutoff created-time)))))
+
+  ;; 今日作成されたかチェック
+  (defun my/org-created-today-p ()
+    "Return non-nil if CREATED property is today."
+    (let* ((created-time (my/org-parse-created-timestamp))
+           (now (current-time)))
+      (when created-time
+	(let ((created-date (decode-time created-time))
+              (now-date (decode-time now)))
+          (and (= (nth 3 created-date) (nth 3 now-date))   ;; day
+               (= (nth 4 created-date) (nth 4 now-date))   ;; month
+               (= (nth 5 created-date) (nth 5 now-date))))))) ;; year
+
+  ;; (defun my/release-org-buffers ()
+  ;;   "Release all currently open org-mode buffers using `org-release-buffers`."
+  ;;   (interactive)
+  ;;   (let ((org-buffers
+  ;;          (seq-filter (lambda (buf)
+  ;; 			 (with-current-buffer buf
+  ;;                          (derived-mode-p 'org-mode)))
+  ;;                      (buffer-list))))
+  ;;     (if org-buffers
+  ;; 	  (
+  ;; 	   (org-release-buffers org-buffers)
+  ;; 	   (message "Released %d org buffers." (length org-buffers))
+  ;; 	   )
+  ;; 	(message "not found buffer")
+  ;; 	)
+  ;;     )
+  ;;   )
   )
 
-;; プロパティから時刻文字列を取得し、Emacsの内部時刻形式に変換
-(defun my/org-parse-created-timestamp ()
-  "Parse CREATED property as a time value, or nil if not present or invalid."
-  (let ((ts (org-entry-get nil "CREATED")))
-    (when ts
-      (condition-case nil
-          (encode-time (parse-time-string ts))
-        (error nil)))))  ;; エラー時は nil を返す
-
-;; 指定した日数前より後かどうかをチェック
-(defun my/org-created-after-days-ago-p (days)
-  "Return non-nil if the CREATED property is within the last DAYS days."
-  (let ((cutoff (time-subtract (current-time) (days-to-time days))))
-    (let ((created-time (my/org-parse-created-timestamp)))
-      (and created-time
-           (time-less-p cutoff created-time)))))
-
-;; 今日作成されたかチェック
-(defun my/org-created-today-p ()
-  "Return non-nil if CREATED property is today."
-  (let* ((created-time (my/org-parse-created-timestamp))
-         (now (current-time)))
-    (when created-time
-      (let ((created-date (decode-time created-time))
-            (now-date (decode-time now)))
-        (and (= (nth 3 created-date) (nth 3 now-date))   ;; day
-             (= (nth 4 created-date) (nth 4 now-date))   ;; month
-             (= (nth 5 created-date) (nth 5 now-date))))))) ;; year
-
+;; (org-release-buffers org-agenda-new-buffers)
 (use-package org-ql
+  :defer t
   :after org
   :config
   (setq org-ql-views
@@ -215,6 +240,7 @@
 
 ;; org用のシンプルなメモ取りツール
 (use-package denote
+  :defer t
   :init
   (with-eval-after-load 'org
     (setq denote-directory "~/prog/org/denote/"))
@@ -260,5 +286,8 @@
   (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
 
   (global-org-modern-mode))
+
+
+
 
 (message "load 31-org.el")

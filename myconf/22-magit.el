@@ -4,7 +4,9 @@
 
 ;;; Code:
 
-(use-package magit)
+(use-package magit
+  :defer t
+  )
 
 ;; ;; magitのdiffを見やすく
 ;; (use-package magit-delta
@@ -16,6 +18,7 @@
 
 ;; (global-set-key (kbd "C-x g") 'magit-status)
 (use-package git-gutter-fringe
+  :after magit
   :custom-face
   (git-gutter:modified . '((t (:background "#f1fa8c"))))
   (git-gutter:added    . '((t (:background "#50fa7b"))))
