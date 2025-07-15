@@ -13,6 +13,7 @@
 (defvar my/project-root-file-patterns
   '((elixir-mode . ("mix.exs"))
     (python-mode . ("pyproject.toml" "setup.py"))
+    (python-ts-mode . ("pyproject.toml" "setup.py"))
     (js-mode     . ("package.json"))
     (typescript-mode . ("package.json" "tsconfig.json"))
     (rust-mode   . ("Cargo.toml"))
@@ -48,29 +49,30 @@
         eglot-ignored-server-capabilities '(:documentHighlightProvider)
         ;; eglot-stay-out-of '(flymake) ;; flymakeをoffにする設定
         eglot-send-changes-idle-time 1.0)
-  (defun my/add-directory-to-exec-path-recursively (dir)
-    "Recursively add directories and their subdirectories to `exec-path`."
-    (add-to-list 'exec-path dir)
-    (dolist (entry (directory-files dir t "^[^.]" t))
-      (when (file-directory-p entry)
-        (my/add-directory-to-exec-path-recursively entry))))
-  (defun my/load-lsp-exec-path ()
-    (interactive)
-    (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
-  (my/load-lsp-exec-path)
+  ;; (defun my/add-directory-to-exec-path-recursively (dir)
+  ;;   "Recursively add directories and their subdirectories to `exec-path`."
+  ;;   (add-to-list 'exec-path dir)
+  ;;   (dolist (entry (directory-files dir t "^[^.]" t))
+  ;;     (when (file-directory-p entry)
+  ;;       (my/add-directory-to-exec-path-recursively entry))))
+  ;; (defun my/load-lsp-exec-path ()
+  ;;   (interactive)
+  ;;   (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
+  ;; (my/load-lsp-exec-path)
   :hook (
 	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
-	 (python-ts-mode . eglot-ensure)
+	 ;; (python-ts-mode . eglot-ensure)
 	 ;; (typescript-ts-mode . eglot-ensure)
-         (tsx-ts-mode        . eglot-ensure)
+         ;; (tsx-ts-mode        . eglot-ensure)
 	 ;; (tsx-mode        . eglot-ensure)
-	 (elixir-mode        . eglot-ensure)
+	 ;; (elixir-mode        . eglot-ensure)
 	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
 	 )
   :config
   (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
-  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp"))) ;;python用
+  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "-v"))) ;;python用
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
   (add-to-list 'eglot-server-programs
                '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))) ;; tsx-ts-mode
   (add-to-list 'eglot-server-programs

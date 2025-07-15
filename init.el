@@ -31,7 +31,6 @@
 (setq init-loader-byte-compile t)
 (init-loader-load "~/.emacs.d/myconf/")
 
-
 (provide 'init)
 ;;; init.el ends here
 (custom-set-variables
