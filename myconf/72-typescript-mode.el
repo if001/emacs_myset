@@ -21,15 +21,15 @@
   ;; (add-hook 'tsx-ts-mode-hook #'tide-setup)
   ;; (add-hook 'tsx-ts-mode-hook #'flycheck-mode)       ; Flycheckを有効化
   ;; (add-hook 'tsx-ts-mode-hook #'prettier-js-mode)    ; Prettier-jsを有効化
-  (use-package pfuture
-    :ensure nil
-    :load-path "site-lisp/pfuture/"
-    )  
-  (use-package flymake-jsts
-    :after pfuture
-    :ensure nil
-    :load-path "site-lisp/flymake-jsts/"
-    )
+  ;; (use-package pfuture
+  ;;   :ensure nil
+  ;;   :load-path "site-lisp/pfuture/"
+  ;;   )  
+  ;; (use-package flymake-jsts
+  ;;   :after pfuture
+  ;;   :ensure nil
+  ;;   :load-path "site-lisp/flymake-jsts/"
+  ;;   )
   )
 
 

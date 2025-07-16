@@ -85,7 +85,7 @@
 	  ;; ("m" "Memo" entry (file+olp+datetree datetreefile)
           ;;  "** %<%m-%d(%a) %H:%M>\n#+filetags: :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: :memo: \n:END:\n%?\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  ("s" "matsuo-lab-llm-compe" entry (file matsuo-lab-file)
-           "** %? :llm_compe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: llm_compe \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)	  
+           "** %? :llm_compe: \n:PROPERTIES:\n:CREATED: %U\n:TAG: llm_compe \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  ("c" "chats" entry (file+headline chatfile "Chats")
 	   "** %? :chat: \n\n:PROPERTIES:\n:CREATED: %U\n:TAG: chat\n:END:\n%i\n" :empty-lines 1)
 	  ("f" "FE memo" entry (file fefile)
