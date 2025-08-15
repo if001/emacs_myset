@@ -7,7 +7,6 @@
 
 
 ;;; Corfu: インライン補完UI
-
 ;; 参考: https://qiita.com/nobuyuki86/items/7c65456ad07b555dd67d
 (use-package corfu
   :init

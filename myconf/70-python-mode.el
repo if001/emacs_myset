@@ -2,22 +2,42 @@
 ;;; 70-python.el --- Python settings:
 
 ;;; Commentary:
-
+;;  flymakeのcheckように入れておく pip install --upgrade pyflakes
 ;; Code:
 
+
 ;; python-mode の設定
-(use-package python-mode
-  :defer t
-  :ensure nil
-  :hook
-  (python-mode . python-ts-mode)
-  (python-ts-mode . eglot-ensure)
-  :config
-  (treesit-install-language-grammar 'python) ;; Python用のTree-sitter文法をインストール
-  (setq indent-tabs-mode nil)
-  (setq indent-level 4)
-  (setq python-indent 4)
-  )
+;; use-packageを使うとeglotが多重起動される
+;; Tree-sitterを使ったpython-ts-modeを明示的に使用
+;; (setq major-mode-remap-alist
+;;       (assq-delete-all 'python-mode major-mode-remap-alist))
+(setq major-mode-remap-alist
+      '((python-mode . python-ts-mode)))
+;; .pyファイルをpython-mode（→ python-ts-mode）にマッピング
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+;; (add-hook 'python-ts-mode-hook #'eglot-ensure)
+
+;; tree-sitter grammarのインストール（初回のみ）
+(when (treesit-available-p)
+  (unless (treesit-language-available-p 'python)
+    (treesit-install-language-grammar 'python)))
+
+(setq indent-tabs-mode nil)
+(setq indent-level 4)
+(setq python-indent 4)
+
+;; (use-package python-ts-mode
+;;   :defer t
+;;   :ensure nil
+;;   :mode "\\.py\\'"
+;;   :hook
+;;   (python-ts-mode . eglot-ensure-safe)
+;;   :config
+;;   ;;(treesit-install-language-grammar 'python) ;; Python用のTree-sitter文法をインストール
+;;   (setq indent-tabs-mode nil)
+;;   (setq indent-level 4)
+;;   (setq python-indent 4)
+;;   )
 
 ;; 汎用的なTree-sitterの設定（必要に応じて）
 ;; (use-package treesit
@@ -27,8 +47,8 @@
 ;;   ;; (setq treesit-auto-install t)
 ;;   )
 
-(use-package pyvenv
-  :defer t)
+;; (use-package pyvenv
+;;   :defer t)
 
 
 ;; (use-package py-autopep8
@@ -40,7 +60,7 @@
 (use-package python-black
   :demand t
   :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+  :hook (python-ts-mode . python-black-on-save-mode-enable-dwim))
 
 (message "loaded 70-python-mode")
 ;; ----- end ----
