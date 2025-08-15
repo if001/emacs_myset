@@ -31,3 +31,5 @@ init.el.def
 
 secrets.el
 myconf/*.elc
+
+eln-cache
