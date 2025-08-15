@@ -11,6 +11,13 @@
 ;; bind-keyに置き換えたい
 ;; http://emacs.rubikitch.com/bind-key/
 
+
+;; キーバインドを可視化してくれます。
+(use-package which-key
+  :config
+  (which-key-mode +1))
+
+
 ;; window移動
 (global-set-key (kbd "C-t") 'other-window)
 
@@ -57,5 +64,32 @@
 ;;        (setq ns-command-modifier (quote meta))
 ;;  (setq ns-alternate-modifier (quote super))
 ;; )
+
+;; undo
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z") 'undo)
+
+
+;; macのpinchを無効化
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "<C-wheel-up>") 'ignore)
+(global-set-key (kbd "<C-wheel-down>") 'ignore)
+
+
+;; WSLではC-\で日英を切り替え!!!
+;; C-\ runs the command toggle-input-method
+
+;; wsl用 C-SPCで日英切り替える
+;; 切り替わらない場合、terminalでfcitxを起動する
+(global-unset-key (kbd "C-\\"))
+(defun start-fcitx ()
+  (interactive)
+  (start-process "start-fcitx" nil "fcitx"))
+(defun toggle-ime ()
+  "外部IMEのON/OFFを切り替えるコマンドをEmacsから呼び出す。"
+  (interactive)
+  ;; 以下はfcitx5の場合の例（wslなど）
+  (start-process "fcitx-toggle" nil "fcitx-remote" "-t"))
+(global-set-key (kbd "C-\\") 'toggle-ime)
 
 (message "loaded 04-keybind.el")

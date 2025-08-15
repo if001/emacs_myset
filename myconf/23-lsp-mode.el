@@ -1,5 +1,3 @@
-
-
 ;;; 23-lsp-mode.el --- LSP settings:
 
 ;;; Commentary:
@@ -35,8 +33,6 @@
 (with-eval-after-load 'project
   (add-to-list 'project-find-functions #'my/project-root-by-major-mode))
 
-
-
 (use-package eglot
   :bind ( :map eglot-mode-map
           ("C-c r" . eglot-rename)
@@ -45,10 +41,10 @@
           ("C-c h" . eldoc)
           ("<f6>" . xref-find-definitions))
   :init
-  (setq eglot-events-buffer-config '(:size 0  :format short)
-        eglot-ignored-server-capabilities '(:documentHighlightProvider)
-        ;; eglot-stay-out-of '(flymake) ;; flymakeをoffにする設定
-        eglot-send-changes-idle-time 1.0)
+  (setq eglot-extend-to-xref t)
+  (setq eglot-events-buffer-config '(:size 0  :format short))
+  ;;(setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (setq eglot-send-changes-idle-time 1.0)
   ;; (defun my/add-directory-to-exec-path-recursively (dir)
   ;;   "Recursively add directories and their subdirectories to `exec-path`."
   ;;   (add-to-list 'exec-path dir)
@@ -59,20 +55,21 @@
   ;;   (interactive)
   ;;   (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
   ;; (my/load-lsp-exec-path)
-  :hook (
-	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
+  ;;:hook (
+	 ;; (言語の追加はここ. 言語のモードに対してeglotの起動をhook)
+	 ;; 起動は各言語に書く
 	 ;; (python-ts-mode . eglot-ensure)
 	 ;; (typescript-ts-mode . eglot-ensure)
          ;; (tsx-ts-mode        . eglot-ensure)
 	 ;; (tsx-mode        . eglot-ensure)
 	 ;; (elixir-mode        . eglot-ensure)
 	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
-	 )
+  ;;	 )
   :config
   (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
-  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "-v"))) ;;python用
-  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
+  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "--verbose"))) ;;python用
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
   (add-to-list 'eglot-server-programs
                '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))) ;; tsx-ts-mode
   (add-to-list 'eglot-server-programs
@@ -81,24 +78,23 @@
                                           ".cache/lsp/elixir-ls-v0.28.0/language_server.sh"))))) ;; elixir
   )
 
-;; スニペットパッケージのtempelとeglotと統合するパッケージです。
-(use-package eglot-tempel
-  :after (eglot tempel)
-  :hook (eglot--managed-mode . eglot-tempel-mode))
+;; こいつをONにすると壊れる
+;; ;; スニペットパッケージのtempelとeglotと統合するパッケージです。
+;; (use-package eglot-tempel
+;;   :after (eglot tempel)
+;;   :hook (eglot-managed-mode-hook . eglot-tempel-mode))
 
 ;; consultとeglotを統合するパッケージです。シンボルの検索が行えるようになります。
 (use-package consult-eglot
   :after eglot
-  :bind ( :map eglot-mode-map
+  :bind (:map eglot-mode-map
           ("C-c s" . consult-eglot-symbols)))
 
-
-;; json用???
-(use-package jsonrpc
-  :config
-  (setq jsonrpc-default-request-timeout 3000)
-  (fset #'jsonrpc--log-event #'ignore))
-
+;; ;; json用???
+;; (use-package jsonrpc
+;;   :config
+;;   (setq jsonrpc-default-request-timeout 3000)
+;;   (fset #'jsonrpc--log-event #'ignore))
 
 ;; eglotの拡張
 (use-package eglot-x
@@ -110,15 +106,17 @@
 
 ;; ミニバッファのeldocをposframeで表示してくれます。
 (use-package eldoc-box
-  :init
-  :hook (eglot--managed-mode . eldoc-box-hover-at-point-mode) ;;Display the documentation of the symbol at point in a temporary childframe
+  :after eldoc
+  ;; :init
+  :hook
+  (eglot-managed-mode-hook . eldoc-box-hover-at-point-mode) ;;Display the documentation of the symbol at point in a temporary childframe
   :config
-  (set-face-attribute 'eldoc-box-border nil :background "white") 
+  (set-face-attribute 'eldoc-box-border nil :background "white")
   )
 
 ;; eldocの情報を追加します。
 (use-package eglot-signature-eldoc-talkative
-  :after eldoc-box
+  :after eldoc
   :config
   (advice-add #'eglot-signature-eldoc-function
               :override #'eglot-signature-eldoc-talkative))
@@ -156,7 +154,6 @@
   ;; lsp-mode が pylsp を認識するための設定
   ;; lsp-install-server で pylsp をインストールする際に使用される
   (setq lsp-pylsp-executable "pylsp")
-  
   :commands (lsp-install-server) ;; lsp-install-server コマンドをロード時に利用可能にする
   )
 
