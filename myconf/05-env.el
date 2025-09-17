@@ -58,3 +58,11 @@
 
 ;; beep off
 (setq ring-bell-function 'ignore)
+
+
+;; wsl用
+;; クリップボード応答を待つ時間（既定は 1000ms）
+(setq x-selection-timeout 20000)  ;; 20秒
+;; 失敗を減らすための相性オプション
+(setq x-select-enable-clipboard-manager nil)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))

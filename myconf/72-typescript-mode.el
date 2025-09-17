@@ -1,4 +1,3 @@
-
 ;; TypeScript(tsx含む)の設定
 
 ;; (use-package typescript-mode
@@ -9,7 +8,8 @@
 ;;   )
 
 (use-package typescript-ts-mode
-  :after (tree-sitter tree-sitter-langs) ; 依存関係を明示
+  ;; :after (tree-sitter tree-sitter-langs) ; 依存関係を明示
+  :after (treesit tree-sitter)
   :mode (("\\.ts\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :init
@@ -17,19 +17,19 @@
   (add-to-list 'major-mode-remap-alist
                '(typescript-mode . typescript-ts-mode))
   :config
-  (add-hook 'tsx-ts-mode-hook #'tree-sitter-hl-mode) ; Tree-sitterハイライトを有効化
+  ;; (add-hook 'tsx-ts-mode-hook #'tree-sitter-hl-mode) ; Tree-sitterハイライトを有効化
   ;; (add-hook 'tsx-ts-mode-hook #'tide-setup)
   ;; (add-hook 'tsx-ts-mode-hook #'flycheck-mode)       ; Flycheckを有効化
   ;; (add-hook 'tsx-ts-mode-hook #'prettier-js-mode)    ; Prettier-jsを有効化
-  (use-package pfuture
-    :ensure nil
-    :load-path "site-lisp/pfuture/"
-    )  
-  (use-package flymake-jsts
-    :after pfuture
-    :ensure nil
-    :load-path "site-lisp/flymake-jsts/"
-    )
+  ;; (use-package pfuture
+  ;;   :ensure nil
+  ;;   :load-path "site-lisp/pfuture/"
+  ;;   )
+  ;; (use-package flymake-jsts
+  ;;   :after pfuture
+  ;;   :ensure nil
+  ;;   :load-path "site-lisp/flymake-jsts/"
+  ;;   )
   )
 
 

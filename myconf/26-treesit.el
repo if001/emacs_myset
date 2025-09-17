@@ -15,22 +15,23 @@
 
 
 (use-package tree-sitter
-  :hook ((tsx-ts-mode . tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode))
+  ;; :hook ((tsx-ts-mode . tree-sitter-mode)
+  ;;        (tree-sitter-after-on . tree-sitter-hl-mode))
   :config
   (add-to-list 'tree-sitter-major-mode-language-alist
                '(tsx-ts-mode . tsx))
   )
 
-(use-package tree-sitter-langs
-  :after tree-sitter)
+;; (use-package tree-sitter-langs
+;;   :after tree-sitter)
 
 (use-package treesit-auto
+  :after treesit
   :config
   ;; (setq treesit-auto-install 'prompt) ;; 自動インストール
   (setq treesit-auto-install nil)
   (global-treesit-auto-mode)
-  (treesit-auto-add-to-auto-mode-alist '(typescript tsx))
+  ;; (treesit-auto-add-to-auto-mode-alist '(typescript tsx))
   )
 
 
@@ -47,8 +48,8 @@
 	(html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
 	(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.23.1"))
 	(css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (python "https://github.com/tree-sitter/tree-sitter-python")
