@@ -2,7 +2,10 @@
 ;;; 70-python.el --- Python settings:
 
 ;;; Commentary:
-;;  flymakeのcheckように入れておく pip install --upgrade pyflakes
+;; flymakeのcheckように入れておく pip install --upgrade pyflakes
+;; ruffは一旦スキップ
+;; pip install ruff
+;; ruffでformateやlintを利用する。以下は不要
 ;; Code:
 
 
@@ -26,6 +29,16 @@
 (setq indent-level 4)
 (setq python-indent 4)
 
+;; ruffでのformatはreformmerに任せる
+;; (use-package flymake-ruff
+;;   :ensure t
+;;   :hook (python-mode . flymake-ruff-load))
+;; (use-package ruff-format
+;;   :ensure t
+;;   :config
+;;   (add-hook 'python-mode-hook 'ruff-format-on-save-mode)
+;;   )
+
 ;; (use-package python-ts-mode
 ;;   :defer t
 ;;   :ensure nil
@@ -46,21 +59,6 @@
 ;;   ;; 上記のように明示的に treesit-install-language-grammar を実行する方が確実です。
 ;;   ;; (setq treesit-auto-install t)
 ;;   )
-
-;; (use-package pyvenv
-;;   :defer t)
-
-
-;; (use-package py-autopep8
-;;   :hook
-;;   (python-ts-mode . py-autopep8-enable-on-save)
-;;   )
-
-;; 整形
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-ts-mode . python-black-on-save-mode-enable-dwim))
 
 (message "loaded 70-python-mode")
 ;; ----- end ----

@@ -70,12 +70,15 @@
   ;; language serverを追加する場合はここに追加していく
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "--verbose"))) ;;python用
   ;; (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("ruff" "server"))) ;;python用 ;; ruff lspはまだサポートしているものが少ないので一旦スキップ
+  
   (add-to-list 'eglot-server-programs
                '(tsx-ts-mode . ("typescript-language-server" "--stdio" "--log-level" "4"))) ;; tsx-ts-mode
   (add-to-list 'eglot-server-programs
                `(elixir-mode . (,(expand-file-name
                                   (concat user-emacs-directory
-                                          ".cache/lsp/elixir-ls-v0.28.0/language_server.sh"))))) ;; elixir
+                                          ".cache/lsp/elixir-ls-v0.28.0/language_server.sh"))))) ;; elixir用
+  (add-hook 'after-save-hook 'eglot-format)
   )
 
 ;; こいつをONにすると壊れる
