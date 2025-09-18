@@ -1,5 +1,3 @@
-
-
 ;;; 23-lsp-mode.el --- LSP settings:
 
 ;;; Commentary:
@@ -59,15 +57,15 @@
   ;;   (interactive)
   ;;   (my/add-directory-to-exec-path-recursively "~/.emacs.d/.cache/"))
   ;; (my/load-lsp-exec-path)
-  :hook (
-	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
-	 ;; (python-ts-mode . eglot-ensure)
-	 ;; (typescript-ts-mode . eglot-ensure)
-         ;; (tsx-ts-mode        . eglot-ensure)
-	 ;; (tsx-mode        . eglot-ensure)
-	 ;; (elixir-mode        . eglot-ensure)
-	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
-	 )
+  ;; :hook (
+  ;; 	 ;; 言語の追加はここ. 言語のモードに対してeglotの起動をhook
+  ;; 	 ;; (python-ts-mode . eglot-ensure)
+  ;; 	 ;; (typescript-ts-mode . eglot-ensure)
+  ;;        ;; (tsx-ts-mode        . eglot-ensure)
+  ;; 	 ;; (tsx-mode        . eglot-ensure)
+  ;; 	 ;; (elixir-mode        . eglot-ensure)
+  ;; 	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
+  ;; 	 )
   :config
   (setq-default flymake-no-changes-timeout 0.3) ;; flymake
   ;; language serverを追加する場合はここに追加していく
@@ -82,9 +80,9 @@
   )
 
 ;; スニペットパッケージのtempelとeglotと統合するパッケージです。
-(use-package eglot-tempel
-  :after (eglot tempel)
-  :hook (eglot--managed-mode . eglot-tempel-mode))
+;; (use-package eglot-tempel
+;;   :after (eglot tempel)
+;;   :hook (eglot--managed-mode . eglot-tempel-mode))
 
 ;; consultとeglotを統合するパッケージです。シンボルの検索が行えるようになります。
 (use-package consult-eglot
