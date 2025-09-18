@@ -5,6 +5,16 @@
 ;; https://orgmode.org/manual/Template-elements.html
 ;; %フォーマットの表記
 ;; https://orgmode.org/manual/Template-expansion.html
+;; %?: カーソルが配置される位置。キャプチャ後に編集を始める場所になります。
+;; %i: アクティブリージョン（選択中のテキスト）。リージョンが無ければ空。
+;; %a: アノテーション（元の場所へのリンクなど）。通常は org-store-link で保存したリンクや org-capture 呼び出し元の情報。
+;; %u: 「inactive」タイムスタンプ（例: [2025-09-17 Wed]）。
+;; %U:「inactive」タイムスタンプ＋時刻（例: [2025-09-17 Wed 12:34]）。
+;; %t: 「active」タイムスタンプ（例: <2025-09-17 Wed>）。
+;; %T: 「active」タイムスタンプ＋時刻（例: <2025-09-17 Wed 12:34>）。
+;; %^t: 対話的に日付を選ぶタイムスタンプ。
+;; %^T: 対話的に日時を選ぶタイムスタンプ。
+
 
 ;; Code:
 (use-package org
@@ -55,12 +65,11 @@
   ;; (setq laterfile (yy-mm-file (concat work-directory "later/") "later"))
   ;; (setq techfile (yy-mm-dd-file (concat work-directory "tech/") "tech"))
 
-  (setq memofile (yy-mm-dd-file (concat work-directory "memo/") "memo"))
+  (setq memofile (yy-mm-file (concat work-directory "memo/") "memo"))
   (setq chatfile (yy-mm-dd-file (concat work-directory "chat/") "chat"))
   (setq fefile (yy-mm-file (concat work-directory "fe/") "fe"))
   (setq matsuo-lab-file (yy-mm-dd-file (concat work-directory "matsuo-lab-llm-compe/") "matsuo-lab-llm-compe"))
- 
-  
+
   (setq org-capture-templates
 	'(
 	  ;; タスク
@@ -75,7 +84,7 @@
 	  ;; ("m" "Memo" entry (file+headline memofile "Memo")
           ;;  "* %? :memo: \n  :PROPERTIES:\n  :CREATED: %U\n  :TAG: memo\n  :END:\n  %i\n  %a\n" :empty-lines 1)
 	  ("m" "Memo" entry (file memofile)
-           "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
+           "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n" :empty-lines 1 :tree-type day)
 	  ("e" "emacs" entry (file memofile)
            "** %? :memo: \n:PROPERTIES:\n:CREATED: %U\n:TAG: memo \n:END:\n%i\n%a\n" :empty-lines 1 :tree-type month)
 	  ("p" "Pepar" entry (file memofile)
@@ -181,6 +190,12 @@
            :buffers-files org-agenda-files
            :query (tags "memo")
            :title "📝 メモ"
+	   :narrow nil
+	   )
+	  ("🐕 FE"
+           :buffers-files org-agenda-files
+           :query (tags "fe")
+           :title "🐕 FE"
 	   :narrow nil
 	 )
 	;; ("今日のタスク"
