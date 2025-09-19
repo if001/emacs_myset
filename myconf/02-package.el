@@ -1,5 +1,5 @@
 ;; package 設定
-(require 'package)
+;; (require 'package)
 
 ;; HTTPS 系のリポジトリ
 ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -18,6 +18,6 @@
 ;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")))
-(package-initialize)
+;; (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+;;                          ("gnu" . "https://elpa.gnu.org/packages/")))
+;; (package-initialize)

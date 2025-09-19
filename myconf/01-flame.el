@@ -122,10 +122,9 @@
   (spacious-padding-mode +1))
 
 ;; 括弧等の構造を操作するパッケージ
-;; (use-package puni
-;;   :ensure t
-;;   :config
-;;   (puni-global-mode +1))
+(use-package puni
+  :config
+  (puni-global-mode +1))
 
 
 ;; 高速で不正確なスクロール
@@ -134,8 +133,6 @@
 
 ;; バッファ上部にパンくずリストを表示してくれます。
 (use-package breadcrumb
-  :ensure nil
-  :load-path "site-lisp/breadcrumb"
   :config
   (breadcrumb-mode +1))
 

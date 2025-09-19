@@ -33,3 +33,6 @@ secrets.el
 myconf/*.elc
 
 eln-cache
+eln-cache/*
+straight/*
+

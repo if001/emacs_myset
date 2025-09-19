@@ -50,18 +50,6 @@
 ;; (use-package pyvenv
 ;;   :defer t)
 
-
-;; (use-package py-autopep8
-;;   :hook
-;;   (python-ts-mode . py-autopep8-enable-on-save)
-;;   )
-
-;; 整形
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-ts-mode . python-black-on-save-mode-enable-dwim))
-
 (message "loaded 70-python-mode")
 ;; ----- end ----
 

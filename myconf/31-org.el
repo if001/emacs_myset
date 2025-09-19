@@ -156,6 +156,7 @@
 
 (use-package org-ql
   :after org
+  :straight (org-ql :type git :host nil :repo "https://github.com/alphapapa/org-ql.git" :tag "v0.8.10")
   :config
   (setq org-ql-views
 	'(
@@ -209,27 +210,29 @@
 ;; org-indent-mode
 ;; インデント機能を有効にしています。
 (use-package org-indent
+  :straight nil
   :ensure nil
   :hook (org-mode . org-indent-mode))
 
 
 ;; org用のシンプルなメモ取りツール
-(use-package denote
-  :init
-  (with-eval-after-load 'org
-    (setq denote-directory "~/prog/org/denote/"))
+;; (use-package denote
+;;   :init
+;;   (with-eval-after-load 'org
+;;     (setq denote-directory "~/prog/org/denote/"))
 
-  :custom
-  (denote-known-keywords '("emacs" "memo" "tweet"))
-  :config
-  ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
-  (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
-  (add-hook 'context-menu-functions #'denote-context-menu)
+;;   :custom
+;;   (denote-known-keywords '("emacs" "memo" "tweet"))
+;;   :config
+;;   ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+;;   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+;;   (add-hook 'context-menu-functions #'denote-context-menu)
 
-  (denote-rename-buffer-mode +1))
+;;   (denote-rename-buffer-mode +1))
 
 ;; org-mode用のtheme
 (use-package org-modern
+  :straight ( org-modern :type git :host nil :repo "https://github.com/minad/org-modern.git" :tag "1.9")
   :custom
   (org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("▸" . "▾") ("▹" . "▿") ("▸" . "▾")))
   :config

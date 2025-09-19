@@ -12,6 +12,7 @@
 
 
 (use-package gptel-integrations
+  :straight (:type built-in)
   :ensure nil
   :config
   (setq mcp-hub-servers

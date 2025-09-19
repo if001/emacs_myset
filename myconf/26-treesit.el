@@ -9,6 +9,7 @@
 
 (use-package treesit
   :ensure nil
+  :straight nil
   :config
   (setq treesit-font-lock-level 4)
   )

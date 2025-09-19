@@ -16,14 +16,14 @@
   )
 
 ;; 補完候補に非常に長い候補が存在するとパフォーマンス上の問題がある。その解消用
-(use-package vertico-truncate
-  :ensure nil
-  :load-path "site-lisp/vertico-truncate"
-  :config
-  (vertico-truncate-mode +1))
+;; (use-package vertico-truncate
+;;   :load-path "site-lisp/vertico-truncate"
+;;   :config
+;;   (vertico-truncate-mode +1))
 
 ;; find-file のファイル・ディレクトリ操作時の操作性を向上させる
-(use-package vertico-directory
+(use-package extensions/vertico-directory
+  :straight (:type built-in)
   :ensure nil
   :after vertico
   :bind ( :map vertico-map
@@ -74,14 +74,13 @@
 ;; --------------------- ;;
 ;; 2段階検索
 (use-package consult-ripgrep-narrowed
-  :ensure nil
+  :straight (consult-ripgrep-narrowed :type git :host nil :repo "https://github.com/if001/consult-ripgrep-narrowed.git")
   :after consult
-  :load-path "site-lisp/consult-ripgrep-narrowed"
   :commands (consult-ripgrep-narrowed))
 
 ;; embark-exportからの検索
 (use-package consult-ripgrep-in-exported-filelist
-  :ensure nil
+  :straight (consult-ripgrep-in-exported-filelist :type git :host nil :repo "https://github.com/if001/consult-ripgrep-in-exported-filelist.git")
   :after consult
   :load-path "site-lisp/consult-ripgrep-in-exported-filelist"
   :commands (consult-ripgrep-in-exported-filelist))

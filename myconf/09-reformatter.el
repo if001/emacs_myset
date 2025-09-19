@@ -11,6 +11,7 @@
     :args `("format" "--stdin-filename" ,buffer-file-name))
   :hook
   (go-ts-mode . go-format-on-save-mode)
+  (typescript-ts-mode . web-format-on-save-mode)
   (tsx-ts-mode . web-format-on-save-mode)
   (json-ts-mode . web-format-on-save-mode)
   (python-ts-mode . python-format-on-save-mode))

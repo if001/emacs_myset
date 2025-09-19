@@ -61,6 +61,7 @@
 
 ;; --- モードライン ---
 (use-package nyan-mode
+  :straight (nyan-mode :type git :host nil :repo "https://github.com/TeMPOraL/nyan-mode.git" :tag "v1.1.3")
   :init
   (setq nyan-bar-length 24)
   (nyan-mode +1))

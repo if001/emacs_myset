@@ -98,25 +98,26 @@
 
 ;; eglotの拡張
 (use-package eglot-x
-  :ensure nil
-  :load-path "site-lisp/eglot-x/"
+  :straight (eglot-x :type git :host nil :repo "https://github.com/nemethf/eglot-x.git")
   :after eglot
   :config
   (eglot-x-setup))
 
 ;; ミニバッファのeldocをposframeで表示してくれます。
 (use-package eldoc-box
-  :after eldoc
+  :after eglot
   ;; :init
-  :hook
-  (eglot-managed-mode-hook . eldoc-box-hover-at-point-mode) ;;Display the documentation of the symbol at point in a temporary childframe
+  ;; :hook
+  ;; (eglot-managed-mode-hook . eldoc-box-hover-at-point-mode) ;;Display the documentation of the symbol at point in a temporary childframe
   :config
   (set-face-attribute 'eldoc-box-border nil :background "white")
+  ;; (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
   )
 
 ;; eldocの情報を追加します。
 (use-package eglot-signature-eldoc-talkative
-  :after eldoc
+  :after eglot
   :config
   (advice-add #'eglot-signature-eldoc-function
               :override #'eglot-signature-eldoc-talkative))
@@ -124,10 +125,9 @@
 
 ;; emacs-lsp-booster ;; M-x eglot-booster
 (use-package eglot-booster
-  :ensure nil
-  :load-path "site-lisp/eglot-booster/"
-  :after eglot
-  :config (eglot-booster-mode))
+	:straight ( eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+	:after eglot
+	:config (eglot-booster-mode))
 
 
 ;;; lsp-mode: Language Serverのインストール・管理にのみ使用
