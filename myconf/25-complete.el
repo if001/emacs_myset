@@ -24,12 +24,14 @@
 	   ;; corfu-echo
 	   (corfu-echo-delay 0.05)
            (corfu-auto-delay 0)
-           (corfu-auto-prefix 1)
+           (corfu-auto-prefix 2)
+	   (corfu-preselect-first nil)   ; 無駄な再描画回数を減らす好み設定
 
 	   ;; corfuの設定
            (corfu-on-exact-match nil)
            (tab-always-indent 'complete)
-	   (corfu-auto-completion-delay 0.1) ; Auto-completion delay
+	   (corfu-auto-delay 0.12) ; Auto-completion delay
+	   ;; (corfu-auto-completion-delay 0.1) ; Auto-completion delay
 	   (corfu-quit-at-boundary t) ; Quit completion at word boundary
 	   (corfu-separator ?\s) ; Separator for candidates
 	   (corfu-popupinfo-delay 0.5) ; Delay for popup info
@@ -120,6 +122,12 @@
   ;;   (advice-add 'tabnine-completion-at-point #'cape-wrap-buster)
   ;;   (add-hook 'completion-at-point-functions #'tabnine-completion-at-point))
   )
+(with-eval-after-load 'eglot
+  (setq-local completion-at-point-functions
+              (list #'eglot-completion-at-point
+                    #'cape-dabbrev
+                    #'cape-file
+                    #'cape-elisp-block)))
 
 ;; dabbrevのサイズを制限
 (setq dabbrev-friend-buffer-function (lambda (other-buffer)

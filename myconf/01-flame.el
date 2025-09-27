@@ -1,17 +1,15 @@
+
 ;;; 01-frame.el --- Frame settings:
 
 ;;; Commentary:
 
 ;; Code:
 ;;時計の表示
-(display-time-mode nil)
-
-;;;スタートメッセージを表示しない
-(setq inhibit-startup-message t)
+(display-time-mode -1)
 
 ;; ;; tool bar を消す.
-(tool-bar-mode -1)
-(menu-bar-mode -1)
+;; (tool-bar-mode -1)
+;; (menu-bar-mode -1)
 
 ;;起動時のフレームサイズを設定する
 (setq initial-frame-alist
@@ -27,7 +25,7 @@
 
 
 ;; スクロールバー非表示
-(scroll-bar-mode 0)
+;; (scroll-bar-mode 0)
 
 ;; 起動時に分割しておく
 ;;(split-window-horizontally)
@@ -36,6 +34,7 @@
 
 ;; 対応する括弧を光らせる。
 (show-paren-mode 1)
+(setq blink-matching-paren nil)
 
 ;バックアップファイルを作らない
 (setq make-backup-files nil)
@@ -51,9 +50,15 @@
 
 ;; ガベージコレクションの設定
 ;; (setq garbage-collection-messages t)
-(setq gc-cons-percentage 0.2
-      gc-cons-threshold (* 128 1024 1024))
-(add-hook 'focus-out-hook #'garbage-collect)
+;; (setq gc-cons-percentage 0.2
+;;       gc-cons-threshold (* 128 1024 1024))
+;; (add-hook 'focus-out-hook #'garbage-collect)
+(use-package gcmh
+  :hook (after-init . gcmh-mode)
+  :config
+  (setq gcmh-idle-delay 0.5
+        gcmh-high-cons-threshold (* 64 1024 1024))) ; 64MB
+
 ;; GCを減らして軽くする.(10倍)
 ;; (setq gc-cons-threshold 12800000)
 ;; (setq gc-cons-threshold (* gc-cons-threshold 50))
@@ -122,9 +127,9 @@
   (spacious-padding-mode +1))
 
 ;; 括弧等の構造を操作するパッケージ
-(use-package puni
-  :config
-  (puni-global-mode +1))
+;; (use-package puni
+;;   :config
+;;   (puni-global-mode +1))
 
 
 ;; 高速で不正確なスクロール
@@ -167,9 +172,24 @@
 ;;   (highlight-indent-guides-method 'bitmap) ;; column   
 ;;   )
 
+;; フォントキャッシュの圧縮を抑制（多フォント環境の引っかかり軽減）
+(setq inhibit-compacting-font-caches t)
 
-;; 
-(setq blink-matching-paren nil)
+;; 字句ハイライト遅延（超巨大バッファで効く）
+(setq jit-lock-defer-time 0.05)
+
+
+;; 不要な再描画を避ける
+(setq redisplay-skip-fontification-on-input t
+      fast-but-imprecise-scrolling t
+      auto-window-vscroll nil
+      scroll-conservatively 101)
+
+;; フォントキャッシュの圧縮を抑制（多フォント環境の引っかかり軽減）
+(setq inhibit-compacting-font-caches t)
+
+;; 字句ハイライト遅延（超巨大バッファで効く）
+(setq jit-lock-defer-time 0.05)
 
 
 (message "loaded 01-flame.el")

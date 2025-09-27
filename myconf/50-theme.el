@@ -43,6 +43,7 @@
 (use-package dashboard
   :init
   (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-startup-banner 'logo)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-display-icons-p t)
   (setq dashboard-set-file-icons t)

@@ -41,10 +41,15 @@
           ("C-c h" . eldoc)
           ("<f6>" . xref-find-definitions))
   :init
-  (setq eglot-extend-to-xref t)
-  (setq eglot-events-buffer-config '(:size 0  :format short))
+  ;;(setq eglot-extend-to-xref t)
+  ;;(setq eglot-events-buffer-config '(:size 0  :format short))
   ;;(setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (setq eglot-send-changes-idle-time 1.0)
+  (setq eglot-send-changes-idle-time 1.0)  
+  (setq eglot-extend-to-xref t
+        eglot-events-buffer-size 0
+        eglot-report-progress nil
+        read-process-output-max (* 3 1024 1024)) ; ← ここに集約
+  
   ;; (defun my/add-directory-to-exec-path-recursively (dir)
   ;;   "Recursively add directories and their subdirectories to `exec-path`."
   ;;   (add-to-list 'exec-path dir)
@@ -66,7 +71,16 @@
 	 ;; (heex-ts-mode . eglot-ensure) ;; elixir用
   ;;	 )
   :config
-  (setq-default flymake-no-changes-timeout 0.3) ;; flymake
+  ;; プロセス読み取りを広げてスループットUP
+  (setq read-process-output-max (* 3 1024 1024)) ; 3MB
+  ;; Eglotのログ/イベントバッファは基本オフ
+  (setq eglot-events-buffer-size 0
+	eglot-report-progress nil)
+  (with-eval-after-load 'flymake
+    (setq flymake-no-changes-timeout 0.5
+          flymake-start-on-save-buffer t
+          flymake-start-on-flymake-mode t
+          flymake-start-on-newline nil))
   ;; language serverを追加する場合はここに追加していく
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp" "--verbose"))) ;;python用
   ;; (add-to-list 'eglot-server-programs '(python-mode . ("pylsp" "-v"))) ;;python用
