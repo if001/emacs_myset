@@ -37,10 +37,10 @@
 ;;   )
 
 ;; 整形
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+;; (use-package python-black
+;;   :demand t
+;;   :after python
+;;   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
 (message "loaded 70-python-mode")
 ;; ----- end ----

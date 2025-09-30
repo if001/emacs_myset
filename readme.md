@@ -1,4 +1,11 @@
+
 # readme
+
+`brew tap d12frosted/emacs-plus`
+
+`brew remove emacs-plus@30; brew install emacs-plus@30 --with-imagemagick --with-modern-purple-flat-icon --with-xwidgets`
+
+https://github.com/d12frosted/homebrew-emacs-plus
 
 ## install
 `install.sh`で必要なrepositoryをclone
